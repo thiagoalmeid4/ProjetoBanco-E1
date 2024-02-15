@@ -1,5 +1,6 @@
 package service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,10 +29,20 @@ public class TransferenciaServiceImpl implements TransferenciaService{
 		Conta recebe = contaDao.retornarPorID(transferencia.getIdContaDestino());
 		Conta paga = contaDao.retornarPorID(transferencia.getIdContaOrigem());
 		
-		if(transferencia.getValor().doubleValue()>recebe.getSaldo().doubleValue()) {
+		if(transferencia.getValor().doubleValue()>paga.getSaldo().doubleValue()) {
 			throw new RuntimeException("Saldo insuficiente");
 		}
-		
+		for(Conta c: contaDao.listarTodos()) {
+			if(c.getIdConta()==recebe.getIdConta()) {
+				c.setSaldo(c.getSaldo().add(transferencia.getValor()));
+				break;
+			}
+		}
+		for(Conta c: contaDao.listarTodos()) {
+			if(c.getIdConta()==paga.getIdConta()) {
+				c.setSaldo(c.getSaldo().subtract(transferencia.getValor()));
+			}
+		}
 	}
 
 	@Override
