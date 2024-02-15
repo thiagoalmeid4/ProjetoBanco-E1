@@ -10,11 +10,11 @@ public class Conta {
 	private long numeroConta;
 	private BigDecimal limiteCredito;
 
-	public Conta(long numeroConta, long numeroAgencia, BigDecimal saldo, BigDecimal limiteCredito) {
+	public Conta(long numeroConta, long numeroAgencia, BigDecimal saldoInicial, BigDecimal limiteCredito2) {
 		this.numeroConta = numeroConta;
 		this.agencia = numeroAgencia;
-		this.saldo = saldo;
-		this.limiteCredito = limiteCredito;
+		this.saldo = saldoInicial;
+		this.limiteCredito = limiteCredito2;
 	}
 
 	public long getIdConta() {
