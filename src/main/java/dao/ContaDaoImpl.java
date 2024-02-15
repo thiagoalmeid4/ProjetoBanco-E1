@@ -16,7 +16,7 @@ public class ContaDaoImpl implements ContaDao{
 	@Override
 	public void salvar(Conta conta)
 	{
-		conta.setIdConta(contaFonte.size());
+		conta.setIdConta(contaFonte.size()+1);
 		 contaFonte.add(conta);	
 	}
 
