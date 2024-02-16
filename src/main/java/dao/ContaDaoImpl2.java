@@ -11,12 +11,8 @@ import java.util.List;
 import models.Conta;
 
 public class ContaDaoImpl2 implements ContaDao {
-	private List<Conta> contaFonte;
-
-	public ContaDaoImpl2(List<Conta> contaFonte) {
-
-		this.contaFonte = contaFonte;
-	}
+	public static final String ARQUIVO_CONTA = "C:\\Users\\lualmeida\\Documents\\conta.txt";
+	
 
 	@Override
 	public void salvar(Conta conta) {
@@ -24,11 +20,11 @@ public class ContaDaoImpl2 implements ContaDao {
 		BufferedWriter bufferedWriter;
 
 		try {
-			fileWriter = new FileWriter("testeConta.txt", true);
-			bufferedWriter = new BufferedWriter(fileWriter);
+			bufferedWriter = new BufferedWriter(new FileWriter(ARQUIVO_CONTA));
 			bufferedWriter.newLine();
-			bufferedWriter.write(contaFonte.add(conta));
-			bufferedWriter.write(contaFonte.size());
+			String contaTexto = conta.toString();
+			bufferedWriter.write(contaTexto);
+			bufferedWriter.write(listarTodos().size());
 			bufferedWriter.flush();
 			bufferedWriter.close();
 		} catch (Exception e) {
@@ -40,9 +36,10 @@ public class ContaDaoImpl2 implements ContaDao {
 	public List<Conta> listarTodos() {
 		FileReader fileReader;
 		BufferedReader bufferedReader;
+		List <Conta> contaFonte= new ArrayList<>();
 		try {
-			this.contaFonte = new ArrayList<>();
-			fileReader = new FileReader("testeConta.txt");
+			
+			fileReader = new FileReader(ARQUIVO_CONTA);
 			bufferedReader = new BufferedReader(fileReader);
 			bufferedReader.readLine();
 			while (bufferedReader.ready()) {
@@ -56,12 +53,12 @@ public class ContaDaoImpl2 implements ContaDao {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-		return this.contaFonte;
+		return contaFonte;
 	}
 
 	@Override
 	public Conta retornarPorID(long idTransferencia) {
-		try (BufferedReader bufferedReader = new BufferedReader(new FileReader(testeConta.txt))) {
+		try (BufferedReader bufferedReader = new BufferedReader( new FileReader(ARQUIVO_CONTA))) {
 			String linha;
 
 			while ((linha = bufferedReader.readLine()) != null) {
