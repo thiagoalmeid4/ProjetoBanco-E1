@@ -6,7 +6,9 @@ import models.Conta;
 
 public interface ContaDao {
 
-	void salvar (Conta conta);
+	void salvar(Conta conta);
+
 	List<Conta> listarTodos();
+
 	Conta retornarPorID(long idConta);
 }

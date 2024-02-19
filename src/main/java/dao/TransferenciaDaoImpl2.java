@@ -13,7 +13,6 @@ import models.Transferencia;
 public class TransferenciaDaoImpl2 implements TransferenciaDao {
 	private static final String ARQUIVO_TRANSFERENCIA = "C:\\Users\\lucosta\\Documents\\listaTransferencia.txt";
 
-
 	@Override
 	public void salvar(Transferencia transferencia) {
 		try (PrintWriter writer = new PrintWriter(new FileWriter(ARQUIVO_TRANSFERENCIA, true))) {
