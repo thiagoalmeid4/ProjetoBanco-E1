@@ -7,7 +7,7 @@ import models.Usuario;
 
 public class UsuarioDaoImpl implements UsuarioDao{
 	
-	private List<Usuario> lista = new ArrayList();
+	private List<Usuario> lista = new ArrayList<>();
 	
 	public UsuarioDaoImpl(List<Usuario> lista) {
 		this.lista = lista;
