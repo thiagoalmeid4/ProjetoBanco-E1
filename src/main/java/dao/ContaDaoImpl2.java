@@ -4,76 +4,74 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import models.Conta;
+import models.Transferencia;
 
 public class ContaDaoImpl2 implements ContaDao {
 	public static final String ARQUIVO_CONTA = "C:\\Users\\lualmeida\\Documents\\conta.txt";
-	
 
 	@Override
 	public void salvar(Conta conta) {
-		FileWriter fileWriter;
-		BufferedWriter bufferedWriter;
-
-		try {
-			bufferedWriter = new BufferedWriter(new FileWriter(ARQUIVO_CONTA));
-			bufferedWriter.newLine();
-			String contaTexto = conta.toString();
-			bufferedWriter.write(contaTexto);
-			bufferedWriter.write(listarTodos().size());
-			bufferedWriter.flush();
-			bufferedWriter.close();
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
+		try (PrintWriter writer = new PrintWriter(new FileWriter(ARQUIVO_CONTA, true))) {
+			conta.setIdConta(listarTodos().size() + 1);
+			writer.println(conta.getIdConta() + "," + conta.getIdUsuario() + "," + conta.getSaldo()
+					+ "," + conta.getAgencia() + "," + conta.getLimiteCredito());
+		} catch (IOException e) {
+			System.out.println("Erro ao salvar no arquivo: " + e.getMessage());
 		}
 	}
 
 	@Override
 	public List<Conta> listarTodos() {
-		FileReader fileReader;
-		BufferedReader bufferedReader;
-		List <Conta> contaFonte= new ArrayList<>();
-		try {
-			
-			fileReader = new FileReader(ARQUIVO_CONTA);
-			bufferedReader = new BufferedReader(fileReader);
-			bufferedReader.readLine();
-			while (bufferedReader.ready()) {
-				long idConta;
-				long idUsuario;
-				BigDecimal saldo;
-				long agencia;
-				long numeroConta;
-				BigDecimal limiteCredito;
+		List<Conta> listaConta = new ArrayList<>();
+
+		try (BufferedReader br = new BufferedReader(new FileReader(ARQUIVO_CONTA))) {
+			String linha;
+
+			while ((linha = br.readLine()) != null) {
+				String[] dados = linha.split(",");
+				long idConta = Long.parseLong(dados[0].trim());
+				long idUsuario = Long.parseLong(dados[1].trim());
+				BigDecimal saldo = new BigDecimal(dados[2].trim());
+				long agencia = Long.parseLong(dados[3].trim());
+				BigDecimal limiteCredito = new BigDecimal(dados[4].trim());
+
+				Conta conta = new Conta();
+
+				listaConta.add(conta);
 			}
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
+
+		} catch (IOException e) {
+			System.out.println("Erro ao ler o arquivo: " + e.getMessage());
 		}
-		return contaFonte;
+
+		return listaConta;
 	}
 
 	@Override
-	public Conta retornarPorID(long idTransferencia) {
-		try (BufferedReader bufferedReader = new BufferedReader( new FileReader(ARQUIVO_CONTA))) {
+	public Conta retornarPorID(long idConta) {
+		try (BufferedReader br = new BufferedReader(new FileReader(ARQUIVO_CONTA))) {
 			String linha;
 
-			while ((linha = bufferedReader.readLine()) != null) {
+			while ((linha = br.readLine()) != null) {
 				String[] dados = linha.split(",");
-				long id = Long.parseLong(dados[0].trim());
+				long idDaConta = Long.parseLong(dados[0].trim());
+				long idDoUsuario = Long.parseLong(dados[1].trim());
 
-				if (id == idTransferencia) {
-					long idContaOrigem = Long.parseLong(dados[1].trim());
-					long idContaDestino = Long.parseLong(dados[2].trim());
-
-					return new Conta();
+				if (idDaConta == idConta) {
+					Conta conta = new Conta();
+					conta.setIdConta(idDaConta);
+					conta.setIdUsuario(idDoUsuario);
+					return conta;
 				}
 			}
-
-		} catch (Exception e) {
+		} catch (IOException e) {
 			System.out.println("Erro ao ler o arquivo: " + e.getMessage());
 		}
 
