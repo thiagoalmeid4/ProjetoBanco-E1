@@ -51,6 +51,8 @@ public class TransferenciaServiceImpl implements TransferenciaService{
 		}
 		
 		transferencia.setData(LocalDateTime.now());
+		transferencia.setTipo("TED");
+		dao.salvar(transferencia);
 	}
 
 	@Override
