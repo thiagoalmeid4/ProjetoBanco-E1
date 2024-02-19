@@ -39,6 +39,11 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 		return usuario;
 	}
+	
+	@Override
+	public Usuario retornarPorId(long idUsuario) {
+		return dao.retornarPorID(idUsuario);
+	}
 
 	private void validarUsuario(Usuario usuario) {
 

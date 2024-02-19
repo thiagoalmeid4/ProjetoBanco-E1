@@ -6,5 +6,7 @@ public interface UsuarioService {
 	void salvarUsuario(Usuario usuario);
 
 	Usuario login(String email, String senha);
+	
+	Usuario retornarPorId(long idUsuario);
 
 }
