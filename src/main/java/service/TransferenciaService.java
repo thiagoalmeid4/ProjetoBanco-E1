@@ -8,5 +8,6 @@ import models.Transferencia;
 
 public interface TransferenciaService {
 	void transferir(Transferencia transferencia);
-	List <Map<String, String>> retornarTransferenciasPorConta(Conta conta);
+
+	List<Map<String, String>> retornarTransferenciasPorConta(Conta conta);
 }

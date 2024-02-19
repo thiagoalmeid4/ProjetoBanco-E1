@@ -3,6 +3,7 @@ package models;
 import java.math.BigDecimal;
 
 public class Conta {
+	
 	private long idConta;
 	private long idUsuario;
 	private BigDecimal saldo;
