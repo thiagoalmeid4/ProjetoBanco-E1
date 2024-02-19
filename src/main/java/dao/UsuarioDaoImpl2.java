@@ -21,15 +21,11 @@ public class UsuarioDaoImpl2 implements UsuarioDao{
 	@Override
 	public void salvar(Usuario usuario)  {
 		try {
-			FileWriter file = new FileWriter(ARQUIVO_CONTAS);
+			FileWriter file = new FileWriter(ARQUIVO_CONTAS, true);
 			BufferedWriter writer = new BufferedWriter(file);
-			usuarios = listarTodos();
-			
 			usuario.setIdUsuario(usuarios.size()+1);
 			
-				
-			String s = usuario.getNome()+","+usuario.getIdUsuario()+","+usuario.getCpf()+","+usuario.getDataNascimento()+","+usuario.getEmail();
-			writer.write(s);
+			writer.write(usuario.getNome()+","+usuario.getIdUsuario()+","+usuario.getCpf()+","+usuario.getDataNascimento()+","+usuario.getEmail());
 			writer.newLine();
 			writer.flush();
 			writer.close();
