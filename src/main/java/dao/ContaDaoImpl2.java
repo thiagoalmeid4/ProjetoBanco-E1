@@ -49,6 +49,7 @@ public class ContaDaoImpl2 implements ContaDao {
 				conta.setNumeroConta(numeroConta);
 				conta.setIdUsuario(idUsuario);
 				conta.setSaldo(saldo);
+				conta.setAgencia(agencia);
 				conta.setLimiteCredito(limiteCredito);
 
 				listaConta.add(conta);
