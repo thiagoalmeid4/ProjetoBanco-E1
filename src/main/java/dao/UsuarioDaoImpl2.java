@@ -16,7 +16,7 @@ import models.Usuario;
 public class UsuarioDaoImpl2 implements UsuarioDao{
 	
 	List<Usuario> usuarios = new ArrayList<>();
-	public static final String ARQUIVO_CONTAS = "C:\\Users\\jcarvalho\\eclipse-workspace\\ProjetoBanco\\TextUsuario.txt";
+	public static final String ARQUIVO_CONTAS = "Usuarios.txt";
 
 	@Override
 	public void salvar(Usuario usuario)  {
@@ -25,7 +25,8 @@ public class UsuarioDaoImpl2 implements UsuarioDao{
 			BufferedWriter writer = new BufferedWriter(file);
 			usuario.setIdUsuario(usuarios.size()+1);
 			
-			writer.write(usuario.getNome()+","+usuario.getIdUsuario()+","+usuario.getCpf()+","+usuario.getDataNascimento()+","+usuario.getEmail());
+			writer.write(usuario.getNome()+","+usuario.getIdUsuario()+","+usuario.getCpf()+","+usuario.getDataNascimento()+","+usuario.getEmail()
+			+","+usuario.getSenha());
 			writer.newLine();
 			writer.flush();
 			writer.close();
@@ -52,6 +53,7 @@ public class UsuarioDaoImpl2 implements UsuarioDao{
 				u.setCpf(s[2]);
 				u.setDataNascimento(LocalDate.parse(s[3]));
 				u.setEmail(s[4]);
+				u.setSenha(s[5]);
 				usuarios.add(u);
 			}
 			reader.close();

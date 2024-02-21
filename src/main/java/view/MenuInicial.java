@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import models.Usuario;
 import service.ContaService;
+import service.TransferenciaService;
 import service.UsuarioService;
 import java.time.LocalDate;
 
@@ -12,10 +13,13 @@ public class MenuInicial {
 
 	private UsuarioService usuarioService;
 	private ContaService contaService;
+	private TransferenciaService transferenciaService;
 	
-	public MenuInicial(UsuarioService usuarioService, ContaService contaService) {
+	
+	public MenuInicial(UsuarioService usuarioService, ContaService contaService, TransferenciaService transferenciaService) {
 		this.usuarioService = usuarioService;
 		this.contaService = contaService;
+		this.transferenciaService = transferenciaService;
 	}
 
 	Scanner input = new Scanner(System.in);
@@ -89,7 +93,7 @@ public class MenuInicial {
 				Usuario usuarioLogado = usuarioService.login(email, senha);
 
 				
-				MenuUsuario menu = new MenuUsuario(usuarioLogado.getIdUsuario(), usuarioService, contaService);
+				MenuUsuario menu = new MenuUsuario(usuarioLogado.getIdUsuario(), usuarioService, contaService, transferenciaService);
 				menu.executar();
 				repete = false;
 				

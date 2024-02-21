@@ -15,18 +15,17 @@ public class MenuTransacoes {
 	
 	 
 	private long idContaLogada;
-	private long idTransferencia;
 	private long idUsuarioLogado;
 	
 	private TransferenciaService service;
 	private ContaService contaService;
-	private UsuarioService usuarioService;
 
-	public MenuTransacoes( long idUsuarioLogado, long idContaLogada, long idTransferencia ) {
+	public MenuTransacoes( long idUsuarioLogado, long idContaLogada, TransferenciaService service, ContaService contaService) {
 		
 		this.idContaLogada = idContaLogada;
-		this.idTransferencia = idTransferencia;
 		this.idUsuarioLogado = idUsuarioLogado;
+		this.service = service;
+		this.contaService = contaService;
 		
 	}
 		
@@ -89,6 +88,7 @@ public class MenuTransacoes {
 			
 			System.out.println("Insira o valor a ser transferido");
 			BigDecimal big = new BigDecimal(scanner.nextDouble());
+			t.setValor(big);
 			
 			service.transferir(t);
 			System.out.println("Transferencia realizada com sucesso!");

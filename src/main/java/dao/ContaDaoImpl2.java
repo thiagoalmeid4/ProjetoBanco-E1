@@ -13,7 +13,7 @@ import java.util.List;
 import models.Conta;
 
 public class ContaDaoImpl2 implements ContaDao {
-	public static final String ARQUIVO_CONTA = "C:\\Users\\lualmeida\\Documents\\conta.txt";
+	public static final String ARQUIVO_CONTA = "Contas.txt";
 
 	@Override
 	public void salvar(Conta conta) {
@@ -39,9 +39,9 @@ public class ContaDaoImpl2 implements ContaDao {
 				
 				long idConta = Long.parseLong(dados[0].trim());
 				long numeroConta = Long.parseLong(dados[2].trim());
-				long idUsuario = Long.parseLong(dados[2].trim());
-				BigDecimal saldo = new BigDecimal(dados[3].trim());
-				long agencia = Long.parseLong(dados[4].trim());
+				long idUsuario = Long.parseLong(dados[1].trim());
+				BigDecimal saldo = new BigDecimal(dados[4].trim());
+				long agencia = Long.parseLong(dados[3].trim());
 				BigDecimal limiteCredito = new BigDecimal(dados[5].trim());
 
 				Conta conta = new Conta();

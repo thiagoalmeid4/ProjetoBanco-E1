@@ -11,7 +11,7 @@ import java.util.List;
 import models.Transferencia;
 
 public class TransferenciaDaoImpl2 implements TransferenciaDao {
-	private static final String ARQUIVO_TRANSFERENCIA = "C:\\Users\\lucosta\\Documents\\listaTransferencia.txt";
+	private static final String ARQUIVO_TRANSFERENCIA = "Transferencia.txt";
 
 	@Override
 	public void salvar(Transferencia transferencia) {
