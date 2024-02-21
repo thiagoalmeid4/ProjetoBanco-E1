@@ -1,9 +1,10 @@
 package view;
 
 import java.time.LocalDateTime;
+import java.util.Scanner;
+
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
-import java.util.Scanner;
 
 import service.ContaService;
 import service.UsuarioService;
@@ -25,8 +26,29 @@ public class MenuUsuario {
 	}
 	
 	public void executar() {
-		
 		painel();
+		
+		Scanner input = new Scanner(System.in);
+		int escolha = 0;
+		boolean sair = true;
+		
+		while(sair) {
+			System.out.println("1 - Menu Transações");
+			System.out.println("2 - Sair");
+			escolha = input.nextInt();
+
+			switch(escolha) {
+			case 1:
+				//instanciar menu transação e executar
+				sair = false;
+				break;
+			case 2:
+				MenuInicial menuInicial = new MenuInicial(usuarioService, contaService);
+				menuInicial.executar();
+				sair = false;
+				break;
+			}
+		}
 	}
 	
 	private void painel() {
@@ -34,7 +56,7 @@ public class MenuUsuario {
 		String nome = usuarioService.retornarPorId(idUsuario).getNome();
 		String dataAtual = retornaData();
 		String agencia = contaService.retornaContaPorIdUsuario(idUsuario).getAgencia() + "";
-		String numeroConta = contaService.retornaContaPorIdUsuario(idUsuario).getIdConta() + "";
+		String numeroConta = contaService.retornaContaPorIdUsuario(idUsuario).getNumeroConta() + "";
 		String saldo = contaService.retornaContaPorIdUsuario(idUsuario).getSaldo().toString();
 		
 		var modelo = "-----------------------------------------------------------------------------------------------------------"

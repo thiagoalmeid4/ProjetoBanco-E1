@@ -26,13 +26,13 @@ public class UsuarioServiceImpl implements UsuarioService {
 		Usuario usuario = null;
 
 		for (Usuario u : dao.listarTodos()) {
-			if (email == u.getEmail()) {
+			if (email.equals(u.getEmail())) {
 				usuario = u;
 				break;
 			}
 		}
 		if (usuario == null) {
-			throw new RuntimeException("Email invalido.");
+			throw new RuntimeException("Email não registrado.");
 		} else if (!usuario.getSenha().equals(senha)) {
 			throw new RuntimeException("Senha invalida.");
 		}
