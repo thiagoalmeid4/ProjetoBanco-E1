@@ -9,8 +9,6 @@ import models.Usuario;
 
 public class ContaServiceImpl implements ContaService {
 
-	private long proximoNumeroConta = 10000000;
-	private long proximoNumeroAgencia = 1000;
 	private ContaDao dao;
 	
 	public ContaServiceImpl(ContaDao dao) {
@@ -41,28 +39,42 @@ public class ContaServiceImpl implements ContaService {
 		}
 		return null;
 	}
+	
+	@Override
+	public Conta retornaContaPorIdUsuario(long idUsuario) {
+		
+		for(Conta c : dao.listarTodos()) {
+			if(c.getIdUsuario() == idUsuario) {
+				return c;
+			}
+		}
+		
+		return null;
+	}
 
 	private Long gerarNumeroConta() {
-		if (proximoNumeroConta >= 100000000) {
+		double max = 99999999;
+		double min = 10000000;
 
-			return null;
-		}
-		return proximoNumeroConta++;
+			long contaAleatorio = (long) (Math.random() * (max - min + 1) + min);
+		
+			return contaAleatorio;
 	}
 
 	private Long gerarNumeroAgencia() {
-		if (proximoNumeroAgencia >= 10000) {
+		double max = 9999;
+		double min = 1000;
 
-			return null;
-		}
-		return proximoNumeroAgencia++;
+			long agenciaAleatorio = (long) (Math.random() * (max - min + 1) + min);
+		
+			return agenciaAleatorio;
 	}
 
-	private double gerarLimiteCredito() {
+	private Long gerarLimiteCredito() {
 
 		Random limiteCredito = new Random();
 
-		double numeroAleatorio = limiteCredito.nextDouble(151);
+		long numeroAleatorio = (long) limiteCredito.nextDouble(151);
 
 		return numeroAleatorio;
 	}
