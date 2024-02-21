@@ -9,5 +9,7 @@ public interface ContaService {
 	Conta gerarConta(Usuario usuario);
 
 	BigDecimal retornarSaldo(Conta conta);
+	
+	Conta retornaContaPorIdUsuario(long idUsuario);
 
 }

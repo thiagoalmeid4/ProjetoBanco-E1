@@ -41,6 +41,18 @@ public class ContaServiceImpl implements ContaService {
 		}
 		return null;
 	}
+	
+	@Override
+	public Conta retornaContaPorIdUsuario(long idUsuario) {
+		
+		for(Conta c : dao.listarTodos()) {
+			if(c.getIdUsuario() == idUsuario) {
+				return c;
+			}
+		}
+		
+		return null;
+	}
 
 	private Long gerarNumeroConta() {
 		if (proximoNumeroConta >= 100000000) {
