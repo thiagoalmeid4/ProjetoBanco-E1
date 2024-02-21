@@ -1,5 +1,10 @@
 package view;
+import java.math.BigDecimal;
+import java.util.Map;
 import java.util.Scanner;
+
+import models.Conta;
+import models.Transferencia;
 import service.ContaService;
 import service.TransferenciaService;
 import service.UsuarioService;
@@ -9,19 +14,19 @@ public class MenuTransacoes {
 	
 	
 	 
-	private long idContaOrigem;
-	private long idContaDestino;
+	private long idContaLogada;
 	private long idTransferencia;
+	private long idUsuarioLogado;
 	
 	private TransferenciaService service;
 	private ContaService contaService;
 	private UsuarioService usuarioService;
 
-	public MenuTransacoes(long idContaOrigem, long idContaDestino, long idTransferencia ) {
+	public MenuTransacoes( long idUsuarioLogado, long idContaLogada, long idTransferencia ) {
 		
-		this.idContaDestino = idContaDestino;
-		this.idContaOrigem = idContaOrigem;
+		this.idContaLogada = idContaLogada;
 		this.idTransferencia = idTransferencia;
+		this.idUsuarioLogado = idUsuarioLogado;
 		
 	}
 		
@@ -70,24 +75,26 @@ public class MenuTransacoes {
 	
 	private void realizarTransferencia() {
 		Scanner scanner = new Scanner(System.in);
+		Transferencia t = new Transferencia();
 		
 		try {
-			System.out.println("Digite o ID da conta origem: ");
-			idContaOrigem = scanner.nextLong();
-			scanner.nextLine();
+			t.setIdContaOrigem(idContaLogada);
 			
-			System.out.println("Digite o ID da conta destino: ");
-			idContaDestino = scanner.nextLong();
-			scanner.nextLine();
+			System.out.println("Digite a agência da conta destino");
+			long agencia = scanner.nextLong();
 			
-			System.out.println("Digite o valor a ser transferido: ");
-			double valorTransferencia = scanner.nextDouble();
-			scanner.nextLine();	
+			System.out.println("Digite o numero da conta");
+			long numero = scanner.nextLong();
+			t.setIdContaDestino(contaService.retornaAgenciaNum(agencia, numero).getIdConta());
 			
+			System.out.println("Insira o valor a ser transferido");
+			BigDecimal big = new BigDecimal(scanner.nextDouble());
+			
+			service.transferir(t);
 			System.out.println("Transferencia realizada com sucesso!");
 			
 		}catch (Exception e) {
-			System.out.println("Ocorreu um erro" + e.getMessage());
+			System.out.println("Ocorreu um erro: " + e.getMessage());
 		
 		}
 		
@@ -95,7 +102,14 @@ public class MenuTransacoes {
 
 
 	private void listarTransferencias() {
-		
+		for (Map<String, String>m: service.retornarTransferenciasPorConta(contaService.retornaContaPorIdUsuario(idUsuarioLogado))) {
+			System.out.println("Conta: "+m.get("Conta"));
+			System.out.println("Tipo de movimento: "+m.get("Movimento"));
+			System.out.println("Valor: "+m.get("Valor"));
+			System.out.println("Tipo de transferência: "+m.get("Tipo"));
+			System.out.println("Data: "+m.get("Data"));
+			System.out.println("-----------------------------------------");
+		}
 		
 	}
 	
