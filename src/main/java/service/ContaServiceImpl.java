@@ -79,4 +79,14 @@ public class ContaServiceImpl implements ContaService {
 		return numeroAleatorio;
 	}
 
+	@Override
+	public Conta retornaAgenciaNum(long agencia, long numeroDaConta) {
+		for(Conta c: dao.listarTodos()) {
+			if ((agencia==c.getAgencia())&&(numeroDaConta==c.getNumeroConta())) {
+				return c;
+			}
+		}
+		
+		return null;
+	}
 }
