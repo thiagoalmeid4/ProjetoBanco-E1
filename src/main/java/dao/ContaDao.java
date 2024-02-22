@@ -11,4 +11,6 @@ public interface ContaDao {
 	List<Conta> listarTodos();
 
 	Conta retornarPorID(long idConta);
+	
+	void atualizar(Conta conta);
 }

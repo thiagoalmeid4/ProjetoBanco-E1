@@ -35,4 +35,14 @@ public class ContaDaoImpl implements ContaDao {
 		return null;
 	}
 
+	@Override
+	public void atualizar(Conta conta) {
+		for(Conta c: contaFonte) {
+			if(c.getIdConta()==conta.getIdConta()) {
+				c=conta;
+			}
+		}
+		
+	}
+
 }

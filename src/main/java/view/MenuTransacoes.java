@@ -102,14 +102,19 @@ public class MenuTransacoes {
 
 
 	private void listarTransferencias() {
+		try {
 		for (Map<String, String>m: service.retornarTransferenciasPorConta(contaService.retornaContaPorIdUsuario(idUsuarioLogado))) {
-			System.out.println("Conta: "+m.get("Conta"));
+			
 			System.out.println("Tipo de movimento: "+m.get("Movimento"));
 			System.out.println("Valor: "+m.get("Valor"));
 			System.out.println("Tipo de transferência: "+m.get("Tipo"));
 			System.out.println("Data: "+m.get("Data"));
 			System.out.println("-----------------------------------------");
 		}
+		}catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
 		
 	}
 	

@@ -38,19 +38,21 @@ public class TransferenciaServiceImpl implements TransferenciaService {
 		}
 		for (Conta c : contaDao.listarTodos()) {
 			if (c.getIdConta() == recebe.getIdConta()) {
-				c.setSaldo(c.getSaldo().add(transferencia.getValor()));
+				recebe.setSaldo(recebe.getSaldo().add(transferencia.getValor()));
 				break;
 			}
 		}
 		for (Conta c : contaDao.listarTodos()) {
 			if (c.getIdConta() == paga.getIdConta()) {
-				c.setSaldo(c.getSaldo().subtract(transferencia.getValor()));
+				paga.setSaldo(paga.getSaldo().subtract(transferencia.getValor()));
 			}
 		}
 
 		transferencia.setData(LocalDateTime.now());
 		transferencia.setTipo("TED");
 		dao.salvar(transferencia);
+		contaDao.atualizar(paga);
+		contaDao.atualizar(recebe);
 	}
 
 	@Override
@@ -58,21 +60,15 @@ public class TransferenciaServiceImpl implements TransferenciaService {
 		List<Map<String, String>> extrato = new ArrayList<>();
 		for (Transferencia t : dao.listarTodos()) {
 			Map<String, String> mov = new HashMap<>();
-			if ((t.getIdContaOrigem() == conta.getIdUsuario()) || (t.getIdContaDestino() == conta.getIdConta())) {
-				if (conta.getIdConta() == t.getIdContaDestino()) {
-					mov.put("Conta", usuarioDao
-							.retornarPorID(contaDao.retornarPorID(t.getIdContaOrigem()).getIdUsuario()).getNome());
-				} else {
-					mov.put("Conta", usuarioDao
-							.retornarPorID(contaDao.retornarPorID(t.getIdContaDestino()).getIdUsuario()).getNome());
-				}
+			 
+				
 				mov.put("Movimento", entradaOuSaida(conta, t));
 				mov.put("Valor", formataValor(conta, t));
 				mov.put("Tipo", t.getTipo());
 				mov.put("Data", t.getData().toString());
 
 				extrato.add(mov);
-			}
+			
 
 		}
 		if (extrato.isEmpty()) {

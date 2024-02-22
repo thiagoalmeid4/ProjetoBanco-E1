@@ -45,7 +45,7 @@ public class MenuUsuario {
 			case 1:
 				MenuTransacoes menu2 = new MenuTransacoes(idUsuario, contaService.retornaContaPorIdUsuario(idUsuario).getIdConta(), transferenciaService, contaService);
 				menu2.executar();
-				break;
+				
 			case 2:
 				MenuInicial menuInicial = new MenuInicial(usuarioService, contaService, transferenciaService);
 				menuInicial.executar();

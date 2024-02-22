@@ -18,6 +18,7 @@ import service.ContaServiceImpl;
 import service.TransferenciaService;
 import service.TransferenciaServiceImpl;
 import dao.TransferenciaDao;
+import dao.TransferenciaDaoImpl;
 
 import java.util.ArrayList;
 
