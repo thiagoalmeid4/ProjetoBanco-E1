@@ -19,9 +19,9 @@ public class MenuTransacoes {
 	
 	private TransferenciaService service;
 	private ContaService contaService;
-
-	public MenuTransacoes( long idUsuarioLogado, long idContaLogada, TransferenciaService service, ContaService contaService) {
-		
+	private MenuUsuario menuUsuario;
+	public MenuTransacoes( long idUsuarioLogado, long idContaLogada, TransferenciaService service, ContaService contaService, MenuUsuario menuUsuario) {
+		this.menuUsuario = menuUsuario;
 		this.idContaLogada = idContaLogada;
 		this.idUsuarioLogado = idUsuarioLogado;
 		this.service = service;
@@ -56,6 +56,7 @@ public class MenuTransacoes {
 			case 3:
 				System.out.println("Saindo");
 				x = false;
+				menuUsuario.executar();
 			default:
 				System.out.println("Opcao invalida");
 			}

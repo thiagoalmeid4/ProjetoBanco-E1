@@ -43,7 +43,7 @@ public class MenuUsuario {
 
 			switch(escolha) {
 			case 1:
-				MenuTransacoes menu2 = new MenuTransacoes(idUsuario, contaService.retornaContaPorIdUsuario(idUsuario).getIdConta(), transferenciaService, contaService);
+				MenuTransacoes menu2 = new MenuTransacoes(idUsuario, contaService.retornaContaPorIdUsuario(idUsuario).getIdConta(), transferenciaService, contaService, this);
 				menu2.executar();
 				executar();
 			case 2:
