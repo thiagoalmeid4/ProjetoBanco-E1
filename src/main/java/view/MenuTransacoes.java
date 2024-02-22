@@ -31,8 +31,8 @@ public class MenuTransacoes {
 		
 	public void executar() {
 		Scanner scanner = new Scanner(System.in);
-		
-		while(true) {
+		boolean x = true;
+		while(x) {
 			
 			exibirMenu();
 			
@@ -55,7 +55,7 @@ public class MenuTransacoes {
 				break;
 			case 3:
 				System.out.println("Saindo");
-				System.exit(0);
+				x = false;
 			default:
 				System.out.println("Opcao invalida");
 			}
