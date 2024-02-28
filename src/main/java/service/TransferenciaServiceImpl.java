@@ -61,7 +61,7 @@ public class TransferenciaServiceImpl implements TransferenciaService {
 		for (Transferencia t : dao.listarTodos()) {
 			Map<String, String> mov = new HashMap<>();
 			 
-				
+				mov.put("Conta", retornarNomeUsuario(conta, t));
 				mov.put("Movimento", entradaOuSaida(conta, t));
 				mov.put("Valor", formataValor(conta, t));
 				mov.put("Tipo", t.getTipo());
@@ -92,5 +92,15 @@ public class TransferenciaServiceImpl implements TransferenciaService {
 		} else {
 			return "-" + t.getValor();
 		}
+	}
+	
+	private String retornarNomeUsuario (Conta c, Transferencia t) {
+		if (c.getIdConta() == t.getIdContaDestino()) {
+			return usuarioDao.retornarPorID(contaDao.retornarPorID(t.getIdContaOrigem()).getIdConta()).getNome();
+		} else {
+			return usuarioDao.retornarPorID(contaDao.retornarPorID(t.getIdContaDestino()).getIdConta()).getNome();
+		}
+		
+		
 	}
 }

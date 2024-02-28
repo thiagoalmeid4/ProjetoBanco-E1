@@ -106,6 +106,7 @@ public class MenuTransacoes {
 		try {
 		for (Map<String, String>m: service.retornarTransferenciasPorConta(contaService.retornaContaPorIdUsuario(idUsuarioLogado))) {
 			
+			System.out.println("Pagante/receptor: "+m.get("Conta"));
 			System.out.println("Tipo de movimento: "+m.get("Movimento"));
 			System.out.println("Valor: "+m.get("Valor"));
 			System.out.println("Tipo de transferência: "+m.get("Tipo"));
