@@ -1,6 +1,8 @@
 package view;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -52,13 +54,12 @@ public class MenuTransacoes {
 						x = false;
 						menuUsuario.executar();
 					default:
-						System.out.println("Opção inválida");
+						System.out.println("Opcao invalida");
 				}
 	
 			}	
 		} catch (Exception e) {
-			System.out.println("Opção inválida");
-			executar();
+			System.out.println("Opção");
 		}
 	}
 
@@ -107,13 +108,18 @@ public class MenuTransacoes {
 				System.out.println("Tipo de movimento: " + m.get("Movimento"));
 				System.out.println("Valor: " + m.get("Valor"));
 				System.out.println("Tipo de transferência: " + m.get("Tipo"));
-				System.out.println("Data: " + m.get("Data"));
+				System.out.println("Data: " + formatarData(m.get("Data")));
 				System.out.println("-----------------------------------------");
 			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
+	}
 
+	private String formatarData(String data){
+		LocalDateTime date = LocalDateTime.parse(data);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd 'de' MM yyyy 'às' HH:mm:ss");
+        return date.format(formatter);
 	}
 
 }
