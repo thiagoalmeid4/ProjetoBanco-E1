@@ -1,2 +1,3 @@
 Davi,1,48709437860,2000-09-06,davi@gmail.com,davisenha
 Thiago,2,26293115899,1950-06-03,thiago@gmail.com,123456
+LUCAS,3,89772633019,2000-12-12,lucas@gmail.com,lucassenha

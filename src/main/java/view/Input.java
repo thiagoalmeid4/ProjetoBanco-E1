@@ -1,6 +1,7 @@
 package view;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -20,12 +21,11 @@ public class Input {
             return getNome();
         }
 
-        return nome;
+        return nome.toUpperCase();
     }
 
     public static String getEmail() {
         scanner = new Scanner(System.in);
-        System.out.print("Digite o endereço de e-mail: ");
         String email = scanner.nextLine().trim();
 
         if (!validarEmail(email)) {
@@ -40,9 +40,23 @@ public class Input {
         dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         scanner = new Scanner(System.in);
         String dataString = scanner.nextLine().trim();
+        LocalDate hoje = LocalDate.now();
 
         try {
             LocalDate data = LocalDate.parse(dataString, dateFormatter);
+            Period periodo = Period.between(data, hoje);
+            int idade = periodo.getYears();
+            
+            if (idade > 90) {
+    			System.out.println("Data de nascimento inválida");
+    			return getData();
+    		}
+            
+    		if (idade < 18) {
+    			System.out.println("O usuário deve ter 18 anos ou mais");
+    			return getData();
+    		}
+            
             return data;
         } catch (Exception e) {
             System.out.println("Data inválida. Tente novamente.");
