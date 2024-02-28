@@ -62,13 +62,13 @@ public class MenuInicial {
 			System.out.print("Olá! Digite o seu nome:\n");
 			String nome = Input.getNome();
 
-			System.out.print("Qual sua data de nascimento? (dd/mm/aaaa)\n");
+			System.out.println("Qual sua data de nascimento? (dd/mm/aaaa)\n");
 			LocalDate dataNascimento = Input.getData();
 
 			System.out.print("Digite o seu email?:\n");
 			String email = Input.getEmail();
 
-			System.out.print("Qual é o seu cpf?:\n");
+			System.out.println("Qual é o seu cpf?:\n");
 			String cpf = Input.getCpf();
 
 			System.out.print("Crie uma senha de no mínimo 6 caracteres:\n");
