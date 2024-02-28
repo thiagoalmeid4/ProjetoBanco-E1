@@ -3,6 +3,7 @@ package view;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -118,7 +119,7 @@ public class MenuTransacoes {
 
 	private String formatarData(String data){
 		LocalDateTime date = LocalDateTime.parse(data);
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd 'de' MM yyyy 'às' HH:mm:ss");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd 'de' MMM yyyy 'às' HH:mm:ss", new Locale("pt","BR"));
         return date.format(formatter);
 	}
 
