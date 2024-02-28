@@ -1,13 +1,12 @@
 package view;
+
 import java.math.BigDecimal;
 import java.util.Map;
 import java.util.Scanner;
 
-import models.Conta;
 import models.Transferencia;
 import service.ContaService;
 import service.TransferenciaService;
-import service.UsuarioService;
 
 
 public class MenuTransacoes {
@@ -42,7 +41,6 @@ public class MenuTransacoes {
 				opcao = scanner.nextInt();		
 			}catch(Exception e) {
 				System.out.println("Opção inválida");
-				scanner.nextLine();
 				continue;
 			}
 			
@@ -88,15 +86,14 @@ public class MenuTransacoes {
 			t.setIdContaDestino(contaService.retornaAgenciaNum(agencia, numero).getIdConta());
 			
 			System.out.println("Insira o valor a ser transferido");
-			BigDecimal big = new BigDecimal(scanner.nextDouble());
-			t.setValor(big);
+			BigDecimal big = new BigDecimal(Input.getValorMonetario());
+			t.setValor(big.setScale(2));
 			
 			service.transferir(t);
 			System.out.println("Transferencia realizada com sucesso!");
 			
 		}catch (Exception e) {
 			System.out.println("Ocorreu um erro: " + e.getMessage());
-		
 		}
 		
 	}
