@@ -2,9 +2,9 @@ package view;
 
 import java.util.Scanner;
 
-
 import models.Usuario;
 import service.ContaService;
+import service.TransferenciaService;
 import service.UsuarioService;
 import java.time.LocalDate;
 
@@ -12,10 +12,13 @@ public class MenuInicial {
 
 	private UsuarioService usuarioService;
 	private ContaService contaService;
-	
-	public MenuInicial(UsuarioService usuarioService, ContaService contaService) {
+	private TransferenciaService transferenciaService;
+
+	public MenuInicial(UsuarioService usuarioService, ContaService contaService,
+			TransferenciaService transferenciaService) {
 		this.usuarioService = usuarioService;
 		this.contaService = contaService;
+		this.transferenciaService = transferenciaService;
 	}
 
 	Scanner input = new Scanner(System.in);
@@ -42,62 +45,67 @@ public class MenuInicial {
 
 				}
 			}
-
 			if (escolha == 1) {
-				input = new Scanner(System.in);
-				System.out.println("Olá! Digite o seu nome:\n");
-				String nome = input.nextLine();
-
-				System.out.println("Qual dia você nasceu?\n");
-				int diaNascimento = input.nextInt();
-
-				System.out.println("Qual mês você nasceu?\n");
-				int mesNascimento = input.nextInt();
-
-				System.out.println("Qual ano?\n");
-				int anoNascimento = input.nextInt();
-
-				LocalDate dataNascimento = LocalDate.of(anoNascimento, mesNascimento, diaNascimento);
-
-				System.out.println("Digite o seu email?:\n");
-				String email = input.next();
-
-				System.out.println("Qual é o seu cpf?:\n");
-				String cpf = input.next();
-
-				System.out.println("Crie uma senha de 6 a 10 caracteres:\n");
-				String senha = input.next();
-
-				Usuario usuario = new Usuario();
-				usuario.setNome(nome);
-				usuario.setDataNascimento(dataNascimento);
-				usuario.setEmail(email);
-				usuario.setCpf(cpf);
-				usuario.setSenha(senha);
-				usuarioService.salvarUsuario(usuario);
-				contaService.gerarConta(usuario);
-				System.out.println("Usuário registrado com sucesso!");
-
+				registrar();
 			} else if (escolha == 2) {
-				input = new Scanner(System.in);
-				System.out.println("Olá! Digite o seu email:\n");
-				String email = input.next();
-
-				System.out.println("Digite sua senha:\n");
-				String senha = input.next();
-				
-				Usuario usuarioLogado = usuarioService.login(email, senha);
-
-				
-				MenuUsuario menu = new MenuUsuario(usuarioLogado.getIdUsuario(), usuarioService, contaService);
-				menu.executar();
-				repete = false;
-				
+				logar(repete);
 			} else if (escolha == 3) {
 				System.out.println("Saindo do programa.");
 				repete = false;
 
 			}
+		}
+	}
+
+	public void registrar() {
+		try {
+			System.out.print("Olá! Digite o seu nome:\n");
+			String nome = Input.getNome();
+
+			System.out.println("Qual sua data de nascimento? (dd/mm/aaaa)\n");
+			LocalDate dataNascimento = Input.getData();
+
+			System.out.print("Digite o seu email?:\n");
+			String email = Input.getEmail();
+
+			System.out.println("Qual é o seu cpf?:\n");
+			String cpf = Input.getCpf();
+
+			System.out.print("Crie uma senha de no mínimo 6 caracteres:\n");
+			String senha = Input.getSenha();
+
+			Usuario usuario = new Usuario();
+			usuario.setNome(nome);
+			usuario.setDataNascimento(dataNascimento);
+			usuario.setEmail(email);
+			usuario.setCpf(cpf);
+			usuario.setSenha(senha);
+			usuarioService.salvarUsuario(usuario);
+			contaService.gerarConta(usuario);
+			System.out.println("Usuário registrado com sucesso!");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			registrar();
+		}
+	}
+
+	public void logar(boolean repete) {
+		try {
+			System.out.print("Olá! Digite o seu email:\n");
+			String email = Input.getEmail();
+
+			System.out.print("Digite sua senha:\n");
+			String senha = Input.getSenha();
+
+			Usuario usuarioLogado = usuarioService.login(email, senha);
+
+			MenuUsuario menu = new MenuUsuario(usuarioLogado.getIdUsuario(),
+					usuarioService, contaService, transferenciaService);
+			menu.executar();
+			repete = false;
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			logar(repete);
 		}
 	}
 }

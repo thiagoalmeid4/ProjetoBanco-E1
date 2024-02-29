@@ -87,6 +87,6 @@ public class ContaServiceImpl implements ContaService {
 			}
 		}
 		
-		return null;
+		throw new RuntimeException("Conta não encontrada");
 	}
 }
