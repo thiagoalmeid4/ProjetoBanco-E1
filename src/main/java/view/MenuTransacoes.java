@@ -37,12 +37,12 @@ public class MenuTransacoes {
 			while (x) {
 
 				exibirMenu();
-	
+
 				int opcao;
-	
+
 				System.out.println("Escolha uma opção:");
 				opcao = scanner.nextInt();
-	
+
 				switch (opcao) {
 					case 1:
 						listarTransferencias();
@@ -57,19 +57,21 @@ public class MenuTransacoes {
 					default:
 						System.out.println("Opcao invalida");
 				}
-	
-			}	
+
+			}
 		} catch (Exception e) {
 			System.out.println("Opção");
 		}
 	}
 
 	private void exibirMenu() {
-
-		System.out.println("Menu de Transações");
-		System.out.println("1- Listar Transferencias");
-		System.out.println("2- Realizar Transferencia");
-		System.out.println("3- Sair");
+		System.out.println("║         Menu de Transações        ║");
+		System.out.println("╠═══════════════════════════════════╣");
+		System.out.println("║  1 - Ver histórico de transações  ║");
+		System.out.println("║  2 - Realizar transferência TED   ║");
+		System.out.println("║  3 - Sair                         ║");
+		System.out.println("╚═══════════════════════════════════╝");
+		System.out.print("Escolha uma opção: ");
 
 	}
 
@@ -79,48 +81,56 @@ public class MenuTransacoes {
 
 		try {
 			t.setIdContaOrigem(idContaLogada);
-
-			System.out.println("Digite a agência da conta destino");
+		
+			System.out.println("╔════════════════════════════════════╗");
+			System.out.println("║         Realizar Transferência     ║");
+			System.out.println("╠════════════════════════════════════╣");
+		
+			System.out.print("║ Digite a agência da conta destino: ");
 			long agencia = scanner.nextLong();
-
-			System.out.println("Digite o numero da conta");
+		
+			System.out.print("║ Digite o número da conta destino: ");
 			long numero = scanner.nextLong();
 			t.setIdContaDestino(contaService.retornaAgenciaNum(agencia, numero).getIdConta());
-
-			System.out.println("Insira o valor a ser transferido");
-			BigDecimal big = new BigDecimal(Input.getValorMonetario());
-			t.setValor(big.setScale(2));
-
+		
+			System.out.print("║ Insira o valor a ser transferido: ");
+			BigDecimal valorTransferencia = new BigDecimal(Input.getValorMonetario());
+			t.setValor(valorTransferencia.setScale(2));
+		
 			service.transferir(t);
-			System.out.println("Transferencia realizada com sucesso!");
-
+			System.out.println("║ Transferência realizada com sucesso! ║");
+			System.out.println("╚════════════════════════════════════╝");
 		} catch (Exception e) {
-			System.out.println("Ocorreu um erro: " + e.getMessage());
+			System.out.println("╔════════════════════════════════════╗");
+			System.out.println("║   Falha ao Realizar Transferência  ║");
+			System.out.println("╠════════════════════════════════════╣");
+			System.out.println("║  Ocorreu um erro: " + e.getMessage());
+			System.out.println("╚══════════════════════════════");
 		}
-
 	}
 
 	private void listarTransferencias() {
 		try {
 			for (Map<String, String> m : service
 					.retornarTransferenciasPorConta(contaService.retornaContaPorIdUsuario(idUsuarioLogado))) {
-
+				System.out.println("================================================");
 				System.out.println("Pagante/receptor: " + m.get("Conta"));
 				System.out.println("Tipo de movimento: " + m.get("Movimento"));
-				System.out.println("Valor: " + m.get("Valor"));
+				System.out.println("Valor: R$" + m.get("Valor"));
 				System.out.println("Tipo de transferência: " + m.get("Tipo"));
 				System.out.println("Data: " + formatarData(m.get("Data")));
-				System.out.println("-----------------------------------------");
+				System.out.println("================================================");
 			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 	}
 
-	private String formatarData(String data){
+	private String formatarData(String data) {
 		LocalDateTime date = LocalDateTime.parse(data);
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd 'de' MMM yyyy 'às' HH:mm:ss", new Locale("pt","BR"));
-        return date.format(formatter);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd 'de' MMM yyyy 'às' HH:mm:ss",
+				new Locale("pt", "BR"));
+		return date.format(formatter);
 	}
 
 }

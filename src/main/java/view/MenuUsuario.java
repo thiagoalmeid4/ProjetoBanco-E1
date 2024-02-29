@@ -37,8 +37,14 @@ public class MenuUsuario {
 
 			while (sair) {
 				painel();
-				System.out.println("1 - Menu Transações");
-				System.out.println("2 - Sair");
+				System.out.println("╔═════════════════════════════╗");
+				System.out.println("║         Menu Principal      ║");
+				System.out.println("╠═════════════════════════════╣");
+				System.out.println("║ 1 - Acessar Menu Transações ║");
+				System.out.println("║ 2 - Sair                    ║");
+				System.out.println("╚═════════════════════════════╝");
+				System.out.print("Escolha uma opção: ");
+				
 				escolha = input.nextInt();
 
 				switch (escolha) {

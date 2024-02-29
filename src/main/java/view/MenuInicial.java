@@ -31,11 +31,15 @@ public class MenuInicial {
 			boolean enquanto = true;
 			while (enquanto) {
 				try {
-					System.out.println("(1) Criar cadastro");
-					System.out.println("(2) Fazer Login");
-					System.out.println("(3) Sair ");
-					System.out.println("Digite o número da opção desejada: ");
-
+					System.out.println("╔════════════════════════════════╗");
+					System.out.println("║  	     Bem-vindo           ║");
+					System.out.println("╠════════════════════════════════╣");
+					System.out.println("║  Menu:                         ║");
+					System.out.println("║    (1) Criar novo cadastro     ║");
+					System.out.println("║    (2) Fazer login             ║");
+					System.out.println("║    (3) Sair do sistema         ║");
+					System.out.println("╠════════════════════════════════╣");
+					System.out.print("║  Digite o número da opção: ");					
 					escolha = input.nextInt();
 					input.nextLine();
 					enquanto = false;
@@ -59,19 +63,27 @@ public class MenuInicial {
 
 	public void registrar() {
 		try {
-			System.out.print("Olá! Digite o seu nome:\n");
+			System.out.println("-----------------------------");
+			System.out.println("|    Cadastro de Usuário    |");
+			System.out.println("-----------------------------");
+			
+			System.out.print("Olá! Digite o seu nome:\n:");
 			String nome = Input.getNome();
-
-			System.out.println("Qual sua data de nascimento? (dd/mm/aaaa)\n");
+			
+			System.out.print("Qual sua data de nascimento? (dd/mm/aaaa)\n:");
 			LocalDate dataNascimento = Input.getData();
-
-			System.out.print("Digite o seu email?:\n");
+			
+			System.out.println("-----------------------------");
+			System.out.print("|       Informe seus dados   |\n");
+			System.out.println("-----------------------------");
+			
+			System.out.print("Digite o seu email:\n:");
 			String email = Input.getEmail();
-
-			System.out.println("Qual é o seu cpf?:\n");
+			
+			System.out.print("Qual é o seu cpf:\n:");
 			String cpf = Input.getCpf();
-
-			System.out.print("Crie uma senha de no mínimo 6 caracteres:\n");
+			
+			System.out.print("Crie uma senha de no mínimo 6 caracteres:\n:");
 			String senha = Input.getSenha();
 
 			Usuario usuario = new Usuario();
@@ -82,19 +94,22 @@ public class MenuInicial {
 			usuario.setSenha(senha);
 			usuarioService.salvarUsuario(usuario);
 			contaService.gerarConta(usuario);
-			System.out.println("Usuário registrado com sucesso!");
+			String paneSucesso = "-------------------------"+"\n| Parabéns, sua conta foi criada ;) |"+"\n-------------------------";
+			System.out.println(paneSucesso);
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			String paneErro = "-------------------------"+"\n|" +e.getMessage()+"! |"+"\n-------------------------";
+			System.out.println(paneErro);
 			registrar();
 		}
 	}
 
 	public void logar(boolean repete) {
 		try {
-			System.out.print("Olá! Digite o seu email:\n");
+			String paneEmail = "-------------------"+"\n| Digite seu email |"+"\n-------------------";
+			System.out.print(paneEmail+"\n:");
 			String email = Input.getEmail();
-
-			System.out.print("Digite sua senha:\n");
+			String paneSenha = "-------------------"+"\n| Digite sua senha |"+"\n-------------------";
+			System.out.print(paneSenha+"\n:");
 			String senha = Input.getSenha();
 
 			Usuario usuarioLogado = usuarioService.login(email, senha);
@@ -104,8 +119,8 @@ public class MenuInicial {
 			menu.executar();
 			repete = false;
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			logar(repete);
+			String paneErro = "-------------------------"+"\n|" +e.getMessage()+"! |"+"\n-------------------------";
+			System.out.println(paneErro);
 		}
 	}
 }

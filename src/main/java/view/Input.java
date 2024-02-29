@@ -13,8 +13,7 @@ public class Input {
 
     public static String getNome() {
         scanner = new Scanner(System.in);
-        System.out.print("Digite o nome: ");
-        String nome = scanner.nextLine().trim();
+        String nome = scanner.next().trim();
 
         if (nome.isEmpty() || !nome.matches("[a-zA-ZÀ-ú]+(\\s[a-zA-ZÀ-ú]+)*")) {
             System.out.println("Nome inválido. Tente novamente.");
@@ -26,7 +25,7 @@ public class Input {
 
     public static String getEmail() {
         scanner = new Scanner(System.in);
-        String email = scanner.nextLine().trim();
+        String email = scanner.next().trim();
 
         if (!validarEmail(email)) {
             System.out.println("E-mail inválido. Tente novamente.");
@@ -39,7 +38,7 @@ public class Input {
     public static LocalDate getData() {
         dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         scanner = new Scanner(System.in);
-        String dataString = scanner.nextLine().trim();
+        String dataString = scanner.next().trim();
         LocalDate hoje = LocalDate.now();
 
         try {
@@ -66,7 +65,7 @@ public class Input {
 
     public static String getCpf() {
         scanner = new Scanner(System.in);
-        String cpf = scanner.nextLine().trim();
+        String cpf = scanner.next().trim();
 
         if (!validarCpf(cpf)) {
             System.out.println("CPF inválido. Tente novamente.");
@@ -78,7 +77,7 @@ public class Input {
 
     public static String getValorMonetario() {
         scanner = new Scanner(System.in);
-        String valor = scanner.nextLine().trim();
+        String valor = scanner.next().trim();
 
         if (valor.isEmpty() || valor.equals("0")) {
             System.out.println("Valor inválido. Tente novamente.");
@@ -92,7 +91,7 @@ public class Input {
 
     public static String getSenha() {
         scanner = new Scanner(System.in);
-        String senha = scanner.nextLine().trim();
+        String senha = scanner.next().trim();
 
         if (senha.isEmpty() || senha.length() < 6) {
             System.out.println("Senha inválida. Tente novamente.");
