@@ -1,12 +1,15 @@
 package br.com.banco;
-import br.com.banco.execute.Build;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+
+
+@SpringBootApplication
 public class App {
 
 	public static void main(String[] args) {
-
-		Build build = new Build(true);
-		build.execute();
+		
+		SpringApplication.run(App.class, args);
 		
 	}
 }
