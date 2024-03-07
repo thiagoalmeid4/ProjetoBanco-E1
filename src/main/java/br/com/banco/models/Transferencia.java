@@ -3,8 +3,16 @@ package br.com.banco.models;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class Transferencia {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long idTransferencia;
 	private long idContaOrigem;
 	private long idContaDestino;

@@ -2,8 +2,16 @@ package br.com.banco.models;
 
 import java.math.BigDecimal;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class Conta {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long idConta;
 	private long idUsuario;
 	private BigDecimal saldo;
