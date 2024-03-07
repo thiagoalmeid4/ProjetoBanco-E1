@@ -6,12 +6,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.stereotype.Service;
+
 import br.com.banco.dao.ContaDao;
 import br.com.banco.dao.TransferenciaDao;
 import br.com.banco.dao.UsuarioDao;
 import br.com.banco.models.Conta;
 import br.com.banco.models.Transferencia;
 
+@Service
 public class TransferenciaServiceImpl implements TransferenciaService {
 
 	private TransferenciaDao dao;
