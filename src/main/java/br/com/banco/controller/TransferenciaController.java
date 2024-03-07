@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,18 +24,21 @@ public class TransferenciaController {
 	@Autowired
 	TransferenciaServiceImpl service;
 
-	@GetMapping("/listarPorConta")
-	public ResponseEntity<List<Map<String, String>>> listar(@RequestBody Conta conta) {
+	@GetMapping("/listarPorConta/{id}")
+	public ResponseEntity<List<Map<String, String>>> listar(@PathVariable Long id) {
+		Conta conta = new Conta();
+		conta.setIdConta(id);
 		if(conta!=null) {
 			return new ResponseEntity<>(service.retornarTransferenciasPorConta(conta), HttpStatus.OK);
-		}else {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 	
 	@PostMapping("/transferir")
 	public ResponseEntity<String> transferir(@RequestBody Transferencia t) {
+		
 		if(t!=null) {
+			service.transferir(t);
 			return new ResponseEntity<>("Transferencia Realizada", HttpStatus.OK);
 		}else {
 			return new ResponseEntity<>("Transferencia não realizada", HttpStatus.CONFLICT);
