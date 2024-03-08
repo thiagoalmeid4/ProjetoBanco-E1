@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.banco.dtos.LoginDtos;
 import br.com.banco.models.Usuario;
+import br.com.banco.service.ContaServiceImpl;
 import br.com.banco.service.UsuarioServiceImpl;
 
 @RestController
@@ -19,10 +20,13 @@ import br.com.banco.service.UsuarioServiceImpl;
 public class UsuarioController {
 	@Autowired
 	UsuarioServiceImpl usuarioService;
+	@Autowired
+	ContaServiceImpl contaService;
 
 	@PostMapping("/salvar")
-	public ResponseEntity salvarUsuario(@RequestBody Usuario usuario)	{
+	public ResponseEntity salvarUsuario(@RequestBody Usuario usuario) {
 		usuarioService.salvarUsuario(usuario);
+		contaService.gerarConta(usuario);
 		return new ResponseEntity(HttpStatus.CREATED);
 	}
 
@@ -31,12 +35,10 @@ public class UsuarioController {
 		return usuarioService.login(login.getEmail(), login.getSenha());
 	}
 
-	
-	@GetMapping
-	("/retornarPorId/{idUsuario}")
-	public Usuario retornarPorId(@PathVariable long idUsuario)	{
+	@GetMapping("/retornarPorId/{idUsuario}")
+	public Usuario retornarPorId(@PathVariable long idUsuario) {
 		return usuarioService.retornarPorId(idUsuario);
-		
+
 	}
 
 }
