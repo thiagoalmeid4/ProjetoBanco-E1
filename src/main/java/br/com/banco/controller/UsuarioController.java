@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.banco.dtos.LoginDtos;
+import br.com.banco.dtos.UsuarioDto;
 import br.com.banco.models.Usuario;
 import br.com.banco.service.ContaServiceImpl;
 import br.com.banco.service.UsuarioServiceImpl;
@@ -36,8 +37,15 @@ public class UsuarioController {
 	}
 
 	@GetMapping("/retornarPorId/{idUsuario}")
-	public Usuario retornarPorId(@PathVariable long idUsuario) {
-		return usuarioService.retornarPorId(idUsuario);
+	public UsuarioDto retornarPorId(@PathVariable long idUsuario) {
+		var dto = new UsuarioDto();
+		var u = usuarioService.retornarPorId(idUsuario);
+		dto.setCpf(u.getCpf());
+		dto.setDataNascimento(u.getDataNascimento());
+		dto.setEmail(u.getEmail());
+		dto.setIdUsuario(idUsuario);
+		dto.setNome(u.getNome());
+		return dto;
 
 	}
 
