@@ -3,10 +3,13 @@ package br.com.banco.service;
 import java.math.BigDecimal;
 import java.util.Random;
 
+import org.springframework.stereotype.Service;
+
 import br.com.banco.dao.ContaDao;
 import br.com.banco.models.Conta;
 import br.com.banco.models.Usuario;
 
+@Service
 public class ContaServiceImpl implements ContaService {
 
 	private ContaDao dao;

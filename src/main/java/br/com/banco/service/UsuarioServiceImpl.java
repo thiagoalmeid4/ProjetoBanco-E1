@@ -4,9 +4,12 @@ import java.time.LocalDate;
 
 import java.time.Period;
 
+import org.springframework.stereotype.Service;
+
 import br.com.banco.dao.UsuarioDao;
 import br.com.banco.models.Usuario;
-
+	
+@Service
 public class UsuarioServiceImpl implements UsuarioService {
 
 	private UsuarioDao dao;
