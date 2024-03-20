@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import br.com.banco.models.Conta;
 import br.com.banco.dao.repository.ContaRepository;
 
-@Component
+//@Component
 public class ContaDaoImpl3 implements ContaDao{
 	
 	@Autowired

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import br.com.banco.models.Conta;
 
-@Repository
+//@Repository
 public interface ContaRepository extends JpaRepository<Conta, Long> {
 	
 }
