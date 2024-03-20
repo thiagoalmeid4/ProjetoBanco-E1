@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import br.com.banco.dao.repository.UsuarioRepository;
 import br.com.banco.models.Usuario;
 
-@Component
+//@Component
 public class UsuarioDaoImpl3 implements UsuarioDao {
 
 	@Autowired

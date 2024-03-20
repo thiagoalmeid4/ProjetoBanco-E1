@@ -2,15 +2,16 @@ package br.com.banco.execute;
 
 import java.util.ArrayList;
 
+import br.com.banco.connection.ConnectionJDBC;
 import br.com.banco.dao.ContaDao;
 import br.com.banco.dao.ContaDaoImpl;
-import br.com.banco.dao.ContaDaoImpl2;
+import br.com.banco.dao.ContaDaoImpl4;
 import br.com.banco.dao.TransferenciaDao;
 import br.com.banco.dao.TransferenciaDaoImpl;
-import br.com.banco.dao.TransferenciaDaoImpl2;
+import br.com.banco.dao.TransferenciaDaoImpl4;
 import br.com.banco.dao.UsuarioDao;
 import br.com.banco.dao.UsuarioDaoImpl;
-import br.com.banco.dao.UsuarioDaoImpl2;
+import br.com.banco.dao.UsuarioDaoImpl4;
 import br.com.banco.models.Conta;
 import br.com.banco.models.Transferencia;
 import br.com.banco.models.Usuario;
@@ -67,9 +68,9 @@ public class Build {
     }
 
     private void exe2(){
-        usuarioDao = new UsuarioDaoImpl2();
-        contaDao = new ContaDaoImpl2();
-        transferenciaDao = new TransferenciaDaoImpl2();
+        usuarioDao = new UsuarioDaoImpl4();
+        contaDao = new ContaDaoImpl4();
+        transferenciaDao = new TransferenciaDaoImpl4(ConnectionJDBC.abrir());
     }
 
 }

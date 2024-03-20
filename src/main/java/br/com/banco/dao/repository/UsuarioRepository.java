@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import br.com.banco.models.Usuario;
 
-@Repository
+//@Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 	
 }

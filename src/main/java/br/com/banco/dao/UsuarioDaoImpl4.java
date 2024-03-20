@@ -10,9 +10,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import br.com.banco.connection.ConnectionJDBC;
 import br.com.banco.models.Usuario;
-
+@Repository
 public class UsuarioDaoImpl4 implements UsuarioDao{
 
 	
