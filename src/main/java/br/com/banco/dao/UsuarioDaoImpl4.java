@@ -2,6 +2,7 @@ package br.com.banco.dao;
 
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,22 +10,24 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.banco.connection.ConnectionJDBC;
 import br.com.banco.models.Usuario;
 
 public class UsuarioDaoImpl4 implements UsuarioDao{
 
-	Connection c;
+	
 	
 	@Override
 	public void salvar(Usuario usuario) {
 		String sql= "INSERT INTO TB_USUARIO (NM_NOME, NM_SENHA, NM_CPF, NM_EMAIL, DT_DATA_NASCIMENTO) VALUES (?,?,?,?,?)";
-		try {
-			PreparedStatement ps= c.prepareStatement(sql);
+		try (Connection c = ConnectionJDBC.abrir();
+				PreparedStatement ps= c.prepareStatement(sql)){
+			
 			ps.setString(1, usuario.getNome());
 			ps.setString(2, usuario.getSenha());
 			ps.setString(3, usuario.getCpf());
 			ps.setString(4, usuario.getEmail());
-			ps.setDate(5, usuario.getDataNascimento());
+			ps.setDate(5, Date.valueOf(usuario.getDataNascimento()));
 			ps.execute();
 		
 		
@@ -42,9 +45,10 @@ public class UsuarioDaoImpl4 implements UsuarioDao{
 	public List<Usuario> listarTodos() {
 		String sql="SELECT * FROM TB_USUARIO";
 		List<Usuario> usuarios= new ArrayList<>();
-		Statement s;
-		try {
-			s = c.createStatement();
+		
+		try (Connection c = ConnectionJDBC.abrir();
+				Statement s= c.createStatement()){
+			
 		
 			ResultSet rs= s.executeQuery(sql);
 		
@@ -71,9 +75,10 @@ public class UsuarioDaoImpl4 implements UsuarioDao{
 	public Usuario retornarPorID(long idUsuario) {
 		String sql= "SELECT * FROM TB_USUARIO WHERE PK_ID_USUARIO=?";
 		
-		try {
+		try (Connection c = ConnectionJDBC.abrir();
+				PreparedStatement ps= c.prepareStatement(sql)){
 			
-			PreparedStatement ps= c.prepareStatement(sql);
+			
 			ps.setLong(1, idUsuario);
 			ResultSet rs= ps.executeQuery();
 			
