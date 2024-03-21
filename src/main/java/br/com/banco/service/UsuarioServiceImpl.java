@@ -53,15 +53,9 @@ public class UsuarioServiceImpl implements UsuarioService {
 		validarDataNascimento(usuario.getDataNascimento());
 		validarCpf(usuario.getCpf());
 		validarEmail(usuario.getEmail());
+		validacaoNome(usuario.getNome());
+		validacaoSenha(usuario.getSenha());
 		verificarDadosExistentes(usuario);
-
-		if (usuario.getNome().isBlank()) {
-			throw new RuntimeException("Nome deve ser informado.");
-		}
-
-		if (usuario.getSenha().length() < 6) {
-			throw new RuntimeException("Senha deve conter 6 ou mais caracteres.");
-		}
 	}
 
 	private void validarDataNascimento(LocalDate dataNascimento) {
@@ -128,6 +122,21 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 		if (!email.matches(regex)) {
 			throw new RuntimeException("Email inválido!");
+		}
+	}
+	
+	public void validacaoNome(String nome) {
+		String regex = "^[^\\W_]*$";
+		if(!nome.matches(regex)) {
+			throw new RuntimeException("O nome só pode ter letras");
+		}
+
+	}
+	
+	public void validacaoSenha(String senha) {
+		String regex = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{6,}$";
+		if(!senha.matches(regex)) {
+			throw new RuntimeException("A senha deve ter no minimo 6 digitos");
 		}
 	}
 
