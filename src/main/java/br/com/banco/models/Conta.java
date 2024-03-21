@@ -15,13 +15,13 @@ public class Conta {
 	private long idConta;
 	private long idUsuario;
 	private BigDecimal saldo;
-	private long agencia;
-	private long numeroConta;
+	private short agencia;
+	private int numeroConta;
 	private BigDecimal limiteCredito;
 	
 	public Conta() {};
 
-	public Conta(long idUsuario, long numeroConta, long numeroAgencia, BigDecimal saldoInicial, BigDecimal limiteCredito2) {
+	public Conta(long idUsuario, int numeroConta, short numeroAgencia, BigDecimal saldoInicial, BigDecimal limiteCredito2) {
 		
 		this.idUsuario = idUsuario;
 		this.numeroConta = numeroConta;
@@ -54,19 +54,19 @@ public class Conta {
 		this.saldo = saldo;
 	}
 
-	public long getAgencia() {
+	public short getAgencia() {
 		return agencia;
 	}
 
-	public void setAgencia(long agencia) {
+	public void setAgencia(short agencia) {
 		this.agencia = agencia;
 	}
 
-	public long getNumeroConta() {
+	public int getNumeroConta() {
 		return numeroConta;
 	}
 
-	public void setNumeroConta(long numeroConta) {
+	public void setNumeroConta(int numeroConta) {
 		this.numeroConta = numeroConta;
 	}
 

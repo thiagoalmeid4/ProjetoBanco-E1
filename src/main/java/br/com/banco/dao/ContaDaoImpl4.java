@@ -51,8 +51,8 @@ public class ContaDaoImpl4 implements ContaDao {
 			Conta conta = new Conta();
 			conta.setIdUsuario(resultado.getLong("fk_id_usuario"));
 			conta.setSaldo(resultado.getBigDecimal("NR_Saldo"));
-			conta.setAgencia(resultado.getLong("NR_agencia"));
-			conta.setNumeroConta(resultado.getLong("NR_numero_conta"));
+			conta.setAgencia(resultado.getShort("NR_agencia"));
+			conta.setNumeroConta(resultado.getInt("NR_numero_conta"));
 			conta.setLimiteCredito(resultado.getBigDecimal("NR_limite_credito"));
 			contas.add(conta);
 			declaracao.close();
@@ -76,8 +76,8 @@ public class ContaDaoImpl4 implements ContaDao {
 		resultado.next();
 		conta.setIdUsuario(resultado.getLong("fk_id_usuario"));
 		conta.setSaldo(resultado.getBigDecimal("NR_saldo"));
-		conta.setAgencia(resultado.getLong("NR_Agencia"));
-		conta.setNumeroConta(resultado.getLong("NR_Numero_conta"));
+		conta.setAgencia(resultado.getShort("NR_Agencia"));
+		conta.setNumeroConta(resultado.getInt("NR_Numero_conta"));
 		conta.setLimiteCredito(resultado.getBigDecimal("NR_Limite_credito"));
 		desc.close();
 		con.close();
@@ -116,8 +116,8 @@ public class ContaDaoImpl4 implements ContaDao {
 		resultado.next();
 		conta.setIdUsuario(resultado.getLong("fk_id_usuario"));
 		conta.setSaldo(resultado.getBigDecimal("NR_saldo"));
-		conta.setAgencia(resultado.getLong("NR_Agencia"));
-		conta.setNumeroConta(resultado.getLong("NR_Numero_conta"));
+		conta.setAgencia(resultado.getShort("NR_Agencia"));
+		conta.setNumeroConta(resultado.getInt("NR_Numero_conta"));
 		conta.setLimiteCredito(resultado.getBigDecimal("NR_Limite_credito"));
 		desc.close();
 		con.close();
@@ -139,8 +139,8 @@ public class ContaDaoImpl4 implements ContaDao {
 		resultado.next();
 		conta.setIdUsuario(resultado.getLong("fk_id_usuario"));
 		conta.setSaldo(resultado.getBigDecimal("NR_saldo"));
-		conta.setAgencia(resultado.getLong("NR_Agencia"));
-		conta.setNumeroConta(resultado.getLong("NR_Numero_conta"));
+		conta.setAgencia(resultado.getShort("NR_Agencia"));
+		conta.setNumeroConta(resultado.getInt("NR_Numero_conta"));
 		conta.setLimiteCredito(resultado.getBigDecimal("NR_Limite_credito"));
 		desc.close();
 		con.close();
