@@ -80,8 +80,6 @@ public class ContaServiceImpl implements ContaService {
 	@Override
 	public Conta retornaAgenciaNum(short agencia, int numero) {
 		return dao.retornarPorAgenciaNum(agencia, numero);
-		
-		throw new RuntimeException("Conta não encontrada");
 	}
 
 }
