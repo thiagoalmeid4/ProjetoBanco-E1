@@ -7,12 +7,14 @@ import java.time.Period;
 import org.springframework.stereotype.Service;
 
 import br.com.banco.dao.UsuarioDao;
+import br.com.banco.dao.UsuarioDaoImpl4;
 import br.com.banco.models.Usuario;
 	
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
 
 	private UsuarioDao dao;
+	
 
 	public UsuarioServiceImpl(UsuarioDao dao) {
 		this.dao = dao;
@@ -24,25 +26,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 		dao.salvar(usuario);
 	}
 
-	@Override
-	public Usuario login(String email, String senha) {
-		Usuario usuario = null;
 
-		for (Usuario u : dao.listarTodos()) {
-			if (email.equals(u.getEmail())) {
-				usuario = u;
-				break;
-			}
-		}
-		if (usuario == null) {
-			throw new RuntimeException("Email não registrado.");
-		} else if (!usuario.getSenha().equals(senha)) {
-			throw new RuntimeException("Senha invalida.");
-		}
-
-		return usuario;
-	}
-	
 	@Override
 	public Usuario retornarPorId(long idUsuario) {
 		return dao.retornarPorID(idUsuario);
@@ -53,7 +37,10 @@ public class UsuarioServiceImpl implements UsuarioService {
 		validarDataNascimento(usuario.getDataNascimento());
 		validarCpf(usuario.getCpf());
 		validarEmail(usuario.getEmail());
-		verificarDadosExistentes(usuario);
+		
+		if (dao.verificacao(usuario.getCpf(), usuario.getEmail())) {
+	        throw new RuntimeException("Email ou CPF já cadastrados.");
+	    }
 
 		if (usuario.getNome().isBlank()) {
 			throw new RuntimeException("Nome deve ser informado.");
@@ -143,6 +130,18 @@ public class UsuarioServiceImpl implements UsuarioService {
 				throw new RuntimeException("Cpf ja cadastrado!");
 			}
 		}
+	}
+
+	@Override
+	public Usuario login(String cpf, String senha) {
+		 Usuario usuario = dao.login(cpf, senha);
+		    
+		    if (usuario == null) {
+		        throw new RuntimeException("CPF ou senha inválidos.");
+		    }
+		    
+		    return usuario;
+		
 	}
 
 }

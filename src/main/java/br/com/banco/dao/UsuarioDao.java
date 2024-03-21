@@ -10,4 +10,8 @@ public interface UsuarioDao {
 	List<Usuario> listarTodos();
 
 	Usuario retornarPorID(long idUsuario);
+	
+	boolean verificacao(String cpf, String email);
+	
+	Usuario login(String cpf, String senha);
 }

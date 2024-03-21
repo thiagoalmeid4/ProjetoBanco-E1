@@ -105,4 +105,56 @@ public class UsuarioDaoImpl4 implements UsuarioDao{
 		return null;
 	}
 
+	@Override
+	public boolean verificacao(String cpf, String email) {
+    String sql= "SELECT * FROM TB_USUARIO WHERE NM_CPF=? AND NM_EMAIL=?";
+		boolean usuarioExiste=false;
+		try (Connection c = ConnectionJDBC.abrir();
+				PreparedStatement ps= c.prepareStatement(sql)){
+			
+			ps.setString(1, cpf);
+			ps.setString(2, email);
+			
+			ResultSet rs=ps.executeQuery();
+			
+			if(rs.next()) {
+				usuarioExiste=true;
+			}
+		}catch(Exception e ) {
+			throw new RuntimeException("Usuario nao existente");
+		}
+		
+		
+		return usuarioExiste;
+	}
+
+	@Override
+	public Usuario login(String cpf, String senha) {
+		String sql= "SELECT * FROM TB_USUARIO WHERE NM_CPF=? AND NM_SENHA=?";
+		
+		try (Connection c = ConnectionJDBC.abrir();
+				PreparedStatement ps= c.prepareStatement(sql)){
+			
+			ps.setString(1, cpf);
+			ps.setString(2, senha);
+			
+			ResultSet rs=ps.executeQuery();
+			
+			if(rs.next()) {
+				Usuario usuario= new Usuario();
+				usuario.setIdUsuario(rs.getLong("PK_ID_USUARIO"));
+				usuario.setCpf(rs.getString("NM_CPF"));
+				usuario.setSenha(rs.getString("NM_SENHA"));
+				return usuario;
+			}
+		
+			
+		} catch (SQLException e) {
+            e.getMessage();
+        }
+		
+		
+		return null;
+	}
+
 }
