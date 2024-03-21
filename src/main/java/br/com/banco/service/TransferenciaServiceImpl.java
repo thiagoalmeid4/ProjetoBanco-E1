@@ -1,5 +1,6 @@
 package br.com.banco.service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -110,5 +111,14 @@ public class TransferenciaServiceImpl implements TransferenciaService {
 			return usuarioDao.retornarPorID(contaDao.retornarPorID(t.getIdContaDestino()).getIdConta()).getNome();
 		}
 
+	}
+	
+	
+	private void verificacaoValor() {
+		var transf = new Transferencia();
+		
+		   if (transf.getValor().compareTo(BigDecimal.ZERO) <= 0) {
+			throw new RuntimeException("O valor da transacao é necessario ser maior que 0");
+		}
 	}
 }
