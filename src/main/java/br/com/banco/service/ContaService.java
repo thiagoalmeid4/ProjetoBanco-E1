@@ -12,5 +12,5 @@ public interface ContaService {
 	
 	Conta retornaContaPorIdUsuario(long idUsuario);
 
-	Conta retornaAgenciaNum(long agencia, long numeroDaConta);
+	Conta retornaAgenciaNum(short agencia, int numeroDaConta);
 }

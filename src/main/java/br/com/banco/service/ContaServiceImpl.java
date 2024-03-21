@@ -22,8 +22,8 @@ public class ContaServiceImpl implements ContaService {
 	@Override
 	public Conta gerarConta(Usuario usuario) {
 		long idUsuario = usuario.getIdUsuario();
-		long numeroConta = gerarNumeroConta();
-		long numeroAgencia = gerarNumeroAgencia();
+		int numeroConta = gerarNumeroConta();
+		short numeroAgencia = gerarNumeroAgencia();
 		BigDecimal saldoInicial = new BigDecimal("50");
 		BigDecimal limiteCredito = new BigDecimal(gerarLimiteCredito());
 
@@ -35,40 +35,35 @@ public class ContaServiceImpl implements ContaService {
 
 	@Override
 	public BigDecimal retornarSaldo(Conta conta) {
-		for(Conta c : dao.listarTodos()) {
-			if(c.getIdConta() == conta.getIdConta()) {
-				return conta.getSaldo();
+		Conta c = dao.retornarPorID(conta.getIdConta());
+			if(c != null) {
+				return c.getSaldo();
 			}
-		}
-		return null;
+			else{
+		throw new RuntimeException("Conta não encontrada!");
+	}
+	
 	}
 	
 	@Override
 	public Conta retornaContaPorIdUsuario(long idUsuario) {
-		
-		for(Conta c : dao.listarTodos()) {
-			if(c.getIdUsuario() == idUsuario) {
-				return c;
-			}
-		}
-		
-		return null;
+		return dao.retornarPorIdUsuario( idUsuario);
 	}
 
-	private Long gerarNumeroConta() {
+	private int gerarNumeroConta() {
 		double max = 99999999;
 		double min = 10000000;
 
-			long contaAleatorio = (long) (Math.random() * (max - min + 1) + min);
+			int contaAleatorio = (int) (Math.random() * (max - min + 1) + min);
 		
 			return contaAleatorio;
 	}
 
-	private Long gerarNumeroAgencia() {
+	private short gerarNumeroAgencia() {
 		double max = 9999;
 		double min = 1000;
 
-			long agenciaAleatorio = (long) (Math.random() * (max - min + 1) + min);
+			short agenciaAleatorio = (short) (Math.random() * (max - min + 1) + min);
 		
 			return agenciaAleatorio;
 	}
@@ -83,13 +78,10 @@ public class ContaServiceImpl implements ContaService {
 	}
 
 	@Override
-	public Conta retornaAgenciaNum(long agencia, long numeroDaConta) {
-		for(Conta c: dao.listarTodos()) {
-			if ((agencia==c.getAgencia())&&(numeroDaConta==c.getNumeroConta())) {
-				return c;
-			}
-		}
+	public Conta retornaAgenciaNum(short agencia, int numero) {
+		return dao.retornarPorAgenciaNum(agencia, numero);
 		
 		throw new RuntimeException("Conta não encontrada");
 	}
+
 }
