@@ -13,5 +13,5 @@ public interface UsuarioDao {
 	
 	boolean verificacao(String cpf, String email);
 	
-	Usuario login(String cpf, String senha);
+	Usuario login(String email, String senha);
 }

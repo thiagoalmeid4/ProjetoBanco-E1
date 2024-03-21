@@ -133,8 +133,8 @@ public class UsuarioServiceImpl implements UsuarioService {
 	}
 
 	@Override
-	public Usuario login(String cpf, String senha) {
-		 Usuario usuario = dao.login(cpf, senha);
+	public Usuario login(String email, String senha) {
+		 Usuario usuario = dao.login(email, senha);
 		    
 		    if (usuario == null) {
 		        throw new RuntimeException("CPF ou senha inválidos.");
