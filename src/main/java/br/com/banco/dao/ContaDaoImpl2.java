@@ -1,4 +1,4 @@
-package br.com.banco.dao;
+/*package br.com.banco.dao;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -135,4 +135,4 @@ public class ContaDaoImpl2 implements ContaDao {
 	        System.out.println("Erro ao ler o arquivo: " + e.getMessage());
 	    }
 	}
-}
+}*/

@@ -13,4 +13,9 @@ public interface ContaDao {
 	Conta retornarPorID(long idConta);
 	
 	void atualizar(Conta conta);
+	
+	Conta retornarPorAgenciaNum(long agencia,long numero);
+	
+	Conta retornarPorIdUsuario(long idUsuario);
+	
 }

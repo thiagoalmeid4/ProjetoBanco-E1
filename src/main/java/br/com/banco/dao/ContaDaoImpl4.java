@@ -104,5 +104,51 @@ public class ContaDaoImpl4 implements ContaDao {
 			e.getMessage();
 		}
 	}
+	@Override
+	public Conta retornarPorAgenciaNum(long agencia,long numero) {
+		Conta conta = new Conta();
+		try {
+		Connection con = ConnectionJDBC.abrir();
+		desc = con.prepareStatement("SELECT * FROM tb_conta WHERE NR_AGENCIA = ? AND NR_NUMERO_CONTA = ?");
+		desc.setLong(1,agencia);
+		desc.setLong(2, numero);		
+		resultado = desc.executeQuery();
+		resultado.next();
+		conta.setIdUsuario(resultado.getLong("fk_id_usuario"));
+		conta.setSaldo(resultado.getBigDecimal("NR_saldo"));
+		conta.setAgencia(resultado.getLong("NR_Agencia"));
+		conta.setNumeroConta(resultado.getLong("NR_Numero_conta"));
+		conta.setLimiteCredito(resultado.getBigDecimal("NR_Limite_credito"));
+		desc.close();
+		con.close();
+		}
+		catch(SQLException e) {
+			e.getMessage();
+		}
+		return conta;
+	}
+	
+	@Override
+	public Conta retornarPorIdUsuario(long idUsuario) {
+		Conta conta = new Conta();
+		try {
+		Connection con = ConnectionJDBC.abrir();
+		desc = con.prepareStatement("SELECT * FROM tb_conta WHERE fk_id_usuario = ?");
+		desc.setLong(1,idUsuario);
+		resultado = desc.executeQuery();
+		resultado.next();
+		conta.setIdUsuario(resultado.getLong("fk_id_usuario"));
+		conta.setSaldo(resultado.getBigDecimal("NR_saldo"));
+		conta.setAgencia(resultado.getLong("NR_Agencia"));
+		conta.setNumeroConta(resultado.getLong("NR_Numero_conta"));
+		conta.setLimiteCredito(resultado.getBigDecimal("NR_Limite_credito"));
+		desc.close();
+		con.close();
+		}
+		catch(SQLException e) {
+			e.getMessage();
+		}
+		return conta;
+	}
 
 }
