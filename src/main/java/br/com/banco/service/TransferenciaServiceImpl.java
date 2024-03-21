@@ -39,16 +39,21 @@ public class TransferenciaServiceImpl implements TransferenciaService {
 		if (transferencia.getValor().doubleValue() > paga.getSaldo().doubleValue()) {
 			throw new RuntimeException("Saldo insuficiente");
 		}
-		for (Conta c : contaDao.listarTodos()) {
-			if (c.getIdConta() == recebe.getIdConta()) {
-				recebe.setSaldo(recebe.getSaldo().add(transferencia.getValor()));
-				break;
-			}
+
+		var buscarContaOrigem = contaDao.retornarPorID(paga.getIdConta());
+
+		if (buscarContaOrigem != null) {
+			paga.setSaldo(paga.getSaldo().subtract(transferencia.getValor()));
+		} else {
+			throw new RuntimeException("ContaOrigem nao encontrada");
 		}
-		for (Conta c : contaDao.listarTodos()) {
-			if (c.getIdConta() == paga.getIdConta()) {
-				paga.setSaldo(paga.getSaldo().subtract(transferencia.getValor()));
-			}
+
+		var buscarContaDestino = contaDao.retornarPorID(recebe.getIdConta());
+
+		if (buscarContaDestino != null) {
+			recebe.setSaldo(recebe.getSaldo().add(transferencia.getValor()));
+		} else {
+			throw new RuntimeException("ContaDestino nao encontrada");
 		}
 
 		transferencia.setData(LocalDateTime.now());
@@ -62,9 +67,9 @@ public class TransferenciaServiceImpl implements TransferenciaService {
 	public List<Map<String, String>> retornarTransferenciasPorConta(Conta conta) {
 		List<Map<String, String>> extrato = new ArrayList<>();
 		for (Transferencia t : dao.listarTodos()) {
-			if((t.getIdContaDestino()==conta.getIdConta())||(t.getIdContaOrigem()==conta.getIdConta())) {
+			if ((t.getIdContaDestino() == conta.getIdConta()) || (t.getIdContaOrigem() == conta.getIdConta())) {
 				Map<String, String> mov = new HashMap<>();
-			 
+
 				mov.put("Conta", retornarNomeUsuario(conta, t));
 				mov.put("Movimento", entradaOuSaida(conta, t));
 				mov.put("Valor", formataValor(conta, t));
@@ -97,13 +102,13 @@ public class TransferenciaServiceImpl implements TransferenciaService {
 			return "-" + t.getValor();
 		}
 	}
-	
-	private String retornarNomeUsuario (Conta c, Transferencia t) {
+
+	private String retornarNomeUsuario(Conta c, Transferencia t) {
 		if (c.getIdConta() == t.getIdContaDestino()) {
 			return usuarioDao.retornarPorID(contaDao.retornarPorID(t.getIdContaOrigem()).getIdConta()).getNome();
 		} else {
 			return usuarioDao.retornarPorID(contaDao.retornarPorID(t.getIdContaDestino()).getIdConta()).getNome();
 		}
-		
+
 	}
 }
