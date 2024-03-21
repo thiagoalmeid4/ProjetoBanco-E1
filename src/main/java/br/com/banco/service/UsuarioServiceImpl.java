@@ -7,12 +7,14 @@ import java.time.Period;
 import org.springframework.stereotype.Service;
 
 import br.com.banco.dao.UsuarioDao;
+import br.com.banco.dao.UsuarioDaoImpl4;
 import br.com.banco.models.Usuario;
 	
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
 
 	private UsuarioDao dao;
+	
 
 	public UsuarioServiceImpl(UsuarioDao dao) {
 		this.dao = dao;
@@ -24,25 +26,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 		dao.salvar(usuario);
 	}
 
-	@Override
-	public Usuario login(String email, String senha) {
-		Usuario usuario = null;
 
-		for (Usuario u : dao.listarTodos()) {
-			if (email.equals(u.getEmail())) {
-				usuario = u;
-				break;
-			}
-		}
-		if (usuario == null) {
-			throw new RuntimeException("Email não registrado.");
-		} else if (!usuario.getSenha().equals(senha)) {
-			throw new RuntimeException("Senha invalida.");
-		}
-
-		return usuario;
-	}
-	
 	@Override
 	public Usuario retornarPorId(long idUsuario) {
 		return dao.retornarPorID(idUsuario);
@@ -53,9 +37,18 @@ public class UsuarioServiceImpl implements UsuarioService {
 		validarDataNascimento(usuario.getDataNascimento());
 		validarCpf(usuario.getCpf());
 		validarEmail(usuario.getEmail());
-		validacaoNome(usuario.getNome());
-		validacaoSenha(usuario.getSenha());
-		verificarDadosExistentes(usuario);
+		
+		if (dao.verificacao(usuario.getCpf(), usuario.getEmail())) {
+	        throw new RuntimeException("Email ou CPF já cadastrados.");
+	    }
+
+		if (usuario.getNome().isBlank()) {
+			throw new RuntimeException("Nome deve ser informado.");
+		}
+
+		if (usuario.getSenha().length() < 6) {
+			throw new RuntimeException("Senha deve conter 6 ou mais caracteres.");
+		}
 	}
 
 	private void validarDataNascimento(LocalDate dataNascimento) {
@@ -124,21 +117,6 @@ public class UsuarioServiceImpl implements UsuarioService {
 			throw new RuntimeException("Email inválido!");
 		}
 	}
-	
-	public void validacaoNome(String nome) {
-		String regex = "^[^\\W_]*$";
-		if(!nome.matches(regex)) {
-			throw new RuntimeException("O nome só pode ter letras");
-		}
-
-	}
-	
-	public void validacaoSenha(String senha) {
-		String regex = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{6,}$";
-		if(!senha.matches(regex)) {
-			throw new RuntimeException("A senha deve ter no minimo 6 digitos");
-		}
-	}
 
 	private void verificarDadosExistentes(Usuario usuario) {
 		for (Usuario u : dao.listarTodos()) {
@@ -152,6 +130,18 @@ public class UsuarioServiceImpl implements UsuarioService {
 				throw new RuntimeException("Cpf ja cadastrado!");
 			}
 		}
+	}
+
+	@Override
+	public Usuario login(String email, String senha) {
+		 Usuario usuario = dao.login(email, senha);
+		    
+		    if (usuario == null) {
+		        throw new RuntimeException("CPF ou senha inválidos.");
+		    }
+		    
+		    return usuario;
+		
 	}
 
 }
