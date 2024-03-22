@@ -131,13 +131,13 @@ public class UsuarioDaoImpl4 implements UsuarioDao{
 	}
 
 	@Override
-	public Usuario login(String cpf, String senha) {
-		String sql= "SELECT * FROM TB_USUARIO WHERE NM_CPF=? AND NM_SENHA=?";
+	public Usuario login(String email, String senha) {
+		String sql= "SELECT * FROM TB_USUARIO WHERE NM_EMAIL=? AND NM_SENHA=?";
 		
 		try (Connection c = ConnectionJDBC.abrir();
 				PreparedStatement ps= c.prepareStatement(sql)){
 			
-			ps.setString(1, cpf);
+			ps.setString(1, email);
 			ps.setString(2, senha);
 			
 			ResultSet rs=ps.executeQuery();
@@ -145,7 +145,7 @@ public class UsuarioDaoImpl4 implements UsuarioDao{
 			if(rs.next()) {
 				Usuario usuario= new Usuario();
 				usuario.setIdUsuario(rs.getLong("PK_ID_USUARIO"));
-				usuario.setCpf(rs.getString("NM_CPF"));
+				usuario.setEmail(rs.getString("NM_EMAIL"));
 				usuario.setSenha(rs.getString("NM_SENHA"));
 				return usuario;
 			}
