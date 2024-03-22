@@ -24,7 +24,7 @@ public class ContaDaoImpl4 implements ContaDao {
 	public void salvar(Conta conta) {
 		try {
 		Connection con = ConnectionJDBC.abrir();
-		desc=con.prepareStatement("INSERT INTO tb_conta VALUES (DEFAULT,?,?,?,?,?)");
+		desc=con.prepareStatement("INSERT INTO tb_conta VALUES (DEFAULT,(SELECT MAX(PK_ID_USUARIO) FROM TB_USUARIO),?,?,?,?)");
 		desc.setLong(1, conta.getIdUsuario());
 		desc.setBigDecimal(2,conta.getSaldo());
 		desc.setLong(3,conta.getAgencia());
