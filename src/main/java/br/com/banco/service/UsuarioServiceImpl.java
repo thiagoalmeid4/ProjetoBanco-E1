@@ -3,6 +3,7 @@ package br.com.banco.service;
 import java.time.LocalDate;
 
 import java.time.Period;
+import java.time.format.DateTimeFormatter;
 
 import org.springframework.stereotype.Service;
 
@@ -27,7 +28,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Override
 	public Usuario login(String email, String senha) {
 		Usuario usuario = null;
-
+		
 		for (Usuario u : dao.listarTodos()) {
 			if (email.equals(u.getEmail())) {
 				usuario = u;
@@ -39,7 +40,6 @@ public class UsuarioServiceImpl implements UsuarioService {
 		} else if (!usuario.getSenha().equals(senha)) {
 			throw new RuntimeException("Senha invalida.");
 		}
-
 		return usuario;
 	}
 	
@@ -153,5 +153,4 @@ public class UsuarioServiceImpl implements UsuarioService {
 			}
 		}
 	}
-
 }

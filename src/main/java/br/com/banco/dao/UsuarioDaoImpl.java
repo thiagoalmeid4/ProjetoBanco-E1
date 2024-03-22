@@ -1,4 +1,4 @@
-package br.com.banco.dao;
+/*package br.com.banco.dao;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -38,4 +38,4 @@ public class UsuarioDaoImpl implements UsuarioDao {
 		return null;
 	}
 
-}
+}*/

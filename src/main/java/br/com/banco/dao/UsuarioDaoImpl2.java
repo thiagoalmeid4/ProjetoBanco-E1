@@ -1,4 +1,4 @@
-package br.com.banco.dao;
+/*package br.com.banco.dao;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -73,3 +73,4 @@ public class UsuarioDaoImpl2 implements UsuarioDao{
 	}
 
 }
+*/

@@ -1,4 +1,4 @@
-package br.com.banco.dao;
+/*package br.com.banco.dao;
 
 import java.util.List;
 
@@ -30,4 +30,4 @@ public class UsuarioDaoImpl3 implements UsuarioDao {
 		return usuarioRepository.findById(idUsuario).get();
 	}
 
-}
+}*/
