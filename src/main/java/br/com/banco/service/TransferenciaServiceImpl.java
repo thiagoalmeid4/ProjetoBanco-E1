@@ -14,6 +14,7 @@ import br.com.banco.dao.TransferenciaDao;
 import br.com.banco.dao.UsuarioDao;
 import br.com.banco.models.Conta;
 import br.com.banco.models.Transferencia;
+import br.com.banco.utils.GeradorTransferencia;
 
 @Service
 public class TransferenciaServiceImpl implements TransferenciaService {
@@ -21,11 +22,13 @@ public class TransferenciaServiceImpl implements TransferenciaService {
 	private TransferenciaDao dao;
 	private ContaDao contaDao;
 	private UsuarioDao usuarioDao;
+	private GeradorTransferencia gt;
 
-	public TransferenciaServiceImpl(TransferenciaDao dao, ContaDao contaDao, UsuarioDao usuarioDao) {
+	public TransferenciaServiceImpl(TransferenciaDao dao, ContaDao contaDao, UsuarioDao usuarioDao,GeradorTransferencia gt) {
 		this.dao = dao;
 		this.contaDao = contaDao;
 		this.usuarioDao = usuarioDao;
+		this.gt = gt;
 	}
 
 	@Override
@@ -120,5 +123,9 @@ public class TransferenciaServiceImpl implements TransferenciaService {
 		   if (transf.getValor().compareTo(BigDecimal.ZERO) <= 0) {
 			throw new RuntimeException("O valor da transacao é necessario ser maior que 0");
 		}
+	}
+	
+	public void gerarTransferencia(int i) {
+		gt.geradorTransferencias(i);
 	}
 }
