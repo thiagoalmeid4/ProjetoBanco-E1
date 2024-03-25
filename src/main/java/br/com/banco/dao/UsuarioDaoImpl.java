@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-
->>>>>>> feature/2
 //package br.com.banco.dao;
 //
 //import java.util.List;
