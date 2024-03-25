@@ -1,5 +1,5 @@
 package br.com.banco.exception;
-
+/*
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -15,4 +15,4 @@ public class RuntimeExceptionHendler {
 	 return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
 	 
  }
-}
+}*/

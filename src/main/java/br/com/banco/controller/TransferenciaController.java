@@ -44,4 +44,10 @@ public class TransferenciaController {
 			return new ResponseEntity<>("Transferencia não realizada", HttpStatus.CONFLICT);
 		}
 	}
+	
+	@PostMapping("/gerar/{i}")
+	public ResponseEntity<String> gerarTransferencia(@PathVariable int i){
+		service.gerarTransferencia(i);
+		return new ResponseEntity<>("Gerado transferencia",HttpStatus.OK);
+	}
 }

@@ -17,18 +17,12 @@ import br.com.banco.models.Transferencia;
 @Repository
 public class TransferenciaDaoImpl4 implements TransferenciaDao {
 
-private Connection connection;
-
-public TransferenciaDaoImpl4(Connection connection) {
-    this.connection = connection;
-}
-
 @Override
 public void salvar(Transferencia transferencia) {
     String sql = "INSERT INTO transferencia (idTransferencia, valor, contaOrigem, contaDestino) VALUES (?, ?, ?, ?)";
     
     try (Connection con = ConnectionJDBC.abrir();
-    	 PreparedStatement pst = connection.prepareStatement(sql)) {
+    	 PreparedStatement pst = con.prepareStatement(sql)) {
         pst.setLong(1, transferencia.getIdTransferencia());
         pst.setLong(3, transferencia.getIdContaOrigem());
         pst.setLong(4, transferencia.getIdContaDestino());
@@ -47,7 +41,7 @@ public List<Transferencia> listarTodos() {
     List<Transferencia> transferencias = new ArrayList<>();
     String sql = "SELECT * FROM transferencia";
     try (Connection con = ConnectionJDBC.abrir();
-    	 PreparedStatement pst = connection.prepareStatement(sql)) {
+    	 PreparedStatement pst = con.prepareStatement(sql)) {
         ResultSet rs = pst.executeQuery();
         while (rs.next()) {
             Transferencia transferencia = new Transferencia();
@@ -70,7 +64,7 @@ public List<Transferencia> listarTodos() {
 public Transferencia retornarPorID(long idTransferencia) {
     String sql = "SELECT * FROM transferencia WHERE idTransferencia = ?";
     try (Connection con = ConnectionJDBC.abrir();
-    	 PreparedStatement pst = connection.prepareStatement(sql)) {
+    	 PreparedStatement pst = con.prepareStatement(sql)) {
         pst.setLong(1, idTransferencia);
         ResultSet rs = pst.executeQuery();
         if (rs.next()) {
