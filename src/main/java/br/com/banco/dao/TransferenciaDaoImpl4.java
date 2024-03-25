@@ -9,10 +9,12 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import br.com.banco.connection.ConnectionJDBC;
 import br.com.banco.models.Transferencia;
 
-
+@Repository
 public class TransferenciaDaoImpl4 implements TransferenciaDao {
 
 private Connection connection;

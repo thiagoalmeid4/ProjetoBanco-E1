@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import br.com.banco.models.Transferencia;
 
-@Repository
+//@Repository
 public interface TransferenciaRepository extends JpaRepository<Transferencia, Long>{
 
 }

@@ -8,7 +8,7 @@ public class ConnectionJDBC {
 	public static Connection abrir() {
 		Connection conexao = null;
 	try {
-		conexao = DriverManager.getConnection("jdbc:h2:file:C:\\Users\\ebabetto\\Documents\\Projetos\\BancoEquipe1\\BancoDigitalDB", "sa", "");
+		conexao = DriverManager.getConnection("jdbc:h2:file:C:\\Users\\vmontezani\\Documents\\Projetos\\(BancoEquipe1)2\\BancoDigitalDB", "sa", "");
 	
 	}
 	catch(SQLException e) {
