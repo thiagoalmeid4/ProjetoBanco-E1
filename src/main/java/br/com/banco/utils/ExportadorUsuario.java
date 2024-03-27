@@ -3,13 +3,16 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+
+import org.springframework.stereotype.Component;
+
 import br.com.banco.models.Usuario;
 
-
+@Component
 public class ExportadorUsuario {
 
-	    public static void exportarParaTxt(List<Usuario> usuarios, String saida) {
-		try (BufferedWriter writer = new BufferedWriter(new FileWriter(saida))) {
+	    public static void exportarParaTxt(List<Usuario> usuarios) {
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\Users\\ypiovarczik\\Downloads\\teste\\verificar.txt", true))) {
 			for (Usuario usuario : usuarios) {
 			writer.write(usuario.getIdUsuario() 
 			+ ";" + usuario.getNome()

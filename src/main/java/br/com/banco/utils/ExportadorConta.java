@@ -5,10 +5,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import br.com.banco.models.Conta;
+@Component
 public class ExportadorConta {
-	public static void exportarParaTxt(List<Conta> contas, String saida) {
-	try (BufferedWriter writer = new BufferedWriter(new FileWriter(saida))) {
+	public static void exportarParaTxt(List<Conta> contas) {
+	try (BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\Users\\ypiovarczik\\Downloads\\teste\\teste.txt", true))) {
 		for (Conta conta : contas) {
 		writer.write(conta.getIdConta() 
 		+ "-" + conta.getIdUsuario() 

@@ -25,7 +25,7 @@ public TransferenciaDaoImpl4(Connection connection) {
 
 @Override
 public void salvar(Transferencia transferencia) {
-    String sql = "INSERT INTO transferencia (idTransferencia, valor, contaOrigem, contaDestino) VALUES (?, ?, ?, ?)";
+    String sql = "INSERT INTO transferencia (idTransferencia, contaOrigem, contaDestino, valor, data, tipo) VALUES (?, ?, ?, ?)";
     
     try (Connection con = ConnectionJDBC.abrir();
     	 PreparedStatement pst = connection.prepareStatement(sql)) {
@@ -38,7 +38,7 @@ public void salvar(Transferencia transferencia) {
         pst.executeUpdate();
         pst.close();
     } catch (SQLException e) {
-        e.printStackTrace();
+    	throw new RuntimeException("Erro ao salvar a transferência: " + e.getMessage());
     }
 }
 
@@ -46,6 +46,7 @@ public void salvar(Transferencia transferencia) {
 public List<Transferencia> listarTodos() {
     List<Transferencia> transferencias = new ArrayList<>();
     String sql = "SELECT * FROM transferencia";
+    
     try (Connection con = ConnectionJDBC.abrir();
     	 PreparedStatement pst = connection.prepareStatement(sql)) {
         ResultSet rs = pst.executeQuery();
@@ -61,7 +62,7 @@ public List<Transferencia> listarTodos() {
             transferencias.add(transferencia);
         }
     } catch (SQLException e) {
-        e.printStackTrace();
+        throw new RuntimeException("Erro ao listar todas as transferências: " + e.getMessage());
     }
     return transferencias;
 }
@@ -85,7 +86,7 @@ public Transferencia retornarPorID(long idTransferencia) {
             return transferencia;
         }
     } catch (SQLException e) {
-        e.printStackTrace();
+        throw new RuntimeException("Erro ao retornar transferência por ID: " + e.getMessage());
     }
     return null;
 }
