@@ -12,5 +12,5 @@ public interface TransferenciaDao {
 
 	Transferencia retornarPorID(long idTransferencia);
 
-	void transfMultipla(Transferencia transferencia);
+	void transfMultipla();
 }
