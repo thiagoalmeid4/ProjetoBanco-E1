@@ -24,7 +24,7 @@ public class TransferenciaDaoImpl4 implements TransferenciaDao {
 
 	@Override
 	public void salvar(Transferencia transferencia) {
-		String sql = "INSERT INTO transferencia (idTransferencia, contaOrigem, contaDestino, valor, data, tipo) VALUES (?, ?, ?, ?)";
+		String sql = "INSERT INTO tb_Transferencia (pk_id_Transferencia, FK_ID_contaOrigem, FK_ID_contaDestino, nr_valor, dt_data, tipo) VALUES (?, ?, ?, ?)";
 
 		try (Connection con = ConnectionJDBC.abrir(); PreparedStatement pst = con.prepareStatement(sql)) {
 			pst.setLong(1, transferencia.getIdTransferencia());
@@ -43,7 +43,7 @@ public class TransferenciaDaoImpl4 implements TransferenciaDao {
 	@Override
 	public List<Transferencia> listarTodos() {
 		List<Transferencia> transferencias = new ArrayList<>();
-		String sql = "SELECT * FROM transferencia";
+		String sql = "SELECT * FROM tb_transferencia";
 
 		try (Connection con = ConnectionJDBC.abrir(); PreparedStatement pst = con.prepareStatement(sql)) {
 			ResultSet rs = pst.executeQuery();
@@ -66,7 +66,7 @@ public class TransferenciaDaoImpl4 implements TransferenciaDao {
 
 	@Override
 	public Transferencia retornarPorID(long idTransferencia) {
-		String sql = "SELECT * FROM transferencia WHERE idTransferencia = ?";
+		String sql = "SELECT * FROM tb_Transferencia WHERE pk_id_Transferencia = ?";
 		try (Connection con = ConnectionJDBC.abrir(); PreparedStatement pst = con.prepareStatement(sql)) {
 			pst.setLong(1, idTransferencia);
 			ResultSet rs = pst.executeQuery();
