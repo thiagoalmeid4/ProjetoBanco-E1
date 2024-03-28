@@ -25,30 +25,35 @@ import br.com.banco.models.Transferencia;
 public class GeradorTransferencia {
 	private Random ran = new Random();
 	private ContaDaoImpl4 cdi4 = new ContaDaoImpl4();
-	private List<Transferencia> lista = new ArrayList<>();
 	private int indexOrigem;
 	private int indexDestino;
-	private String cpf;
 	String query = "SELECT NM_CPF,C.NR_AGENCIA,C.NR_NUMERO_CONTA FROM TB_CONTA C INNER JOIN TB_USUARIO U ON U.PK_ID_USUARIO = C.FK_ID_USUARIO;";
 	private List<Conta> listaConta=new ArrayList<>();
 	private List<Short> listaAgencia = new ArrayList<>();
 	private List<Integer> listaNumeroConta=new ArrayList<>();
+	private List<String> listaCpf= new ArrayList<>();
 	private char tipo;
-	
-	public void salvarTransferencias() {
-		for (Transferencia trans : lista) {
+	String cpf;
+	String valorFormatado;
+	public void salvarTransferencias(Transferencia trans) {
 			try (BufferedWriter writer = new BufferedWriter(new FileWriter(
 					"C:\\Users\\ebabetto\\Documents\\Projetos\\BancoEquipe1\\TransferenciasGeradas.txt", true))) {
+				if(tipo == 'E') {
+				 cpf =listaCpf.get(indexDestino);
+				}
+				else {
+				cpf=listaCpf.get(indexOrigem);
+				}
 				writer.write(cpf + "" + listaAgencia.get(indexOrigem) + ""
 						+ listaNumeroConta.get(indexOrigem)+ "" + listaAgencia.get(indexDestino)
-						+ "" + listaNumeroConta.get(indexDestino) + "" + trans.getValor() + ""
+						+ "" + listaNumeroConta.get(indexDestino) + "" +valorFormatado + ""
 						+ trans.getData() + "" + tipo);
 				writer.flush();
 				writer.newLine();
+				
 			} catch (IOException e) {
 				e.getMessage();
 			}
-		}
 	}
 
 	public void geradorTransferencias(int i1) {
@@ -65,10 +70,10 @@ public class GeradorTransferencia {
 				indexOrigem = ran.nextInt(listaConta.size());
 			}
 			trans.setValor(new BigDecimal(ran.nextDouble(10, 10000)).setScale(2, BigDecimal.ROUND_HALF_UP));
+			valorFormatado = String.format("%09.2f", trans.getValor()).replace(",","");
 			trans.setData(geradorData());
-			lista.add(trans);
+			salvarTransferencias(trans);
 		}
-		salvarTransferencias();
 	}
 
 	public LocalDateTime geradorData() {
@@ -87,7 +92,7 @@ public class GeradorTransferencia {
 			while (resultado.next()) {
 				listaAgencia.add(resultado.getShort("NR_AGENCIA"));
 				listaNumeroConta.add(resultado.getInt("NR_NUMERO_CONTA"));
-				cpf = resultado.getString("NM_CPF");
+				listaCpf.add(resultado.getString("NM_CPF"));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
