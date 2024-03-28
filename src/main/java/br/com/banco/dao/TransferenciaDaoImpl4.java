@@ -24,7 +24,7 @@ public class TransferenciaDaoImpl4 implements TransferenciaDao {
 
 	@Override
 	public void salvar(Transferencia transferencia) {
-		String sql = "INSERT INTO transferencia (idTransferencia, contaOrigem, contaDestino, valor, data, tipo) VALUES (?, ?, ?, ?)";
+		String sql = "INSERT INTO TB_TRANSFERENCIA (PK_ID_TRANSFERENCIA, FK_ID_CONTA_ORIGEM, FK_ID_CONTA_DESTINO, NR_VALOR, DT_DATA, TIPO) VALUES (?, ?, ?, ?)";
 
 		try (Connection con = ConnectionJDBC.abrir(); PreparedStatement pst = con.prepareStatement(sql)) {
 			pst.setLong(1, transferencia.getIdTransferencia());
@@ -43,19 +43,19 @@ public class TransferenciaDaoImpl4 implements TransferenciaDao {
 	@Override
 	public List<Transferencia> listarTodos() {
 		List<Transferencia> transferencias = new ArrayList<>();
-		String sql = "SELECT * FROM transferencia";
+		String sql = "SELECT * FROM tb_transferencia";
 
 		try (Connection con = ConnectionJDBC.abrir(); PreparedStatement pst = con.prepareStatement(sql)) {
 			ResultSet rs = pst.executeQuery();
 			while (rs.next()) {
 				Transferencia transferencia = new Transferencia();
-				transferencia.setIdTransferencia(rs.getLong("pk_id_Transferencia"));
-				transferencia.setIdContaOrigem(rs.getLong("fk_id_contaOrigem"));
-				transferencia.setIdContaDestino(rs.getLong("fk_id_contaDestino"));
-				transferencia.setValor(rs.getBigDecimal("nr_valor"));
-				LocalDateTime local = rs.getTimestamp("dt_data").toLocalDateTime();
+				transferencia.setIdTransferencia(rs.getLong("PK_ID_TRANSFERENCIA"));
+				transferencia.setIdContaOrigem(rs.getLong("FK_ID_CONTA_ORIGEM"));
+				transferencia.setIdContaDestino(rs.getLong("FK_ID_CONTA_DESTINO"));
+				transferencia.setValor(rs.getBigDecimal("NR_VALOR"));
+				LocalDateTime local = rs.getTimestamp("DT_DATA").toLocalDateTime();
 				transferencia.setData(local);
-				transferencia.setTipo(rs.getString("tipo"));
+				transferencia.setTipo(rs.getString("TIPO"));
 				transferencias.add(transferencia);
 			}
 		} catch (SQLException e) {
@@ -66,19 +66,19 @@ public class TransferenciaDaoImpl4 implements TransferenciaDao {
 
 	@Override
 	public Transferencia retornarPorID(long idTransferencia) {
-		String sql = "SELECT * FROM transferencia WHERE idTransferencia = ?";
+		String sql = "SELECT * FROM TB_TRANSFERENCIA WHERE PK_ID_TRANSFERENCIA = ?";
 		try (Connection con = ConnectionJDBC.abrir(); PreparedStatement pst = con.prepareStatement(sql)) {
 			pst.setLong(1, idTransferencia);
 			ResultSet rs = pst.executeQuery();
 			if (rs.next()) {
 				Transferencia transferencia = new Transferencia();
-				transferencia.setIdTransferencia(rs.getLong("pk_id_Transferencia"));
-				transferencia.setIdContaOrigem(rs.getLong("fk_id_contaOrigem"));
-				transferencia.setIdContaDestino(rs.getLong("fk_id_contaDestino"));
-				transferencia.setValor(rs.getBigDecimal("nr_valor"));
-				LocalDateTime local = (rs.getTimestamp("dt_data").toLocalDateTime());
+				transferencia.setIdTransferencia(rs.getLong("PK_ID_TRANSFERENCIA"));
+				transferencia.setIdContaOrigem(rs.getLong("FK_ID_CONTA_ORIGEM"));
+				transferencia.setIdContaDestino(rs.getLong("FK_ID_CONTA_GIT DESTINO"));
+				transferencia.setValor(rs.getBigDecimal("NR_VALOR"));
+				LocalDateTime local = (rs.getTimestamp("DT_DATA").toLocalDateTime());
 				transferencia.setData(local);
-				transferencia.setTipo(rs.getString("tipo"));
+				transferencia.setTipo(rs.getString("TIPO"));
 				return transferencia;
 			}
 		} catch (SQLException e) {
