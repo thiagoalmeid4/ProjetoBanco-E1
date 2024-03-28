@@ -38,7 +38,7 @@ public class UsuarioDaoImpl4 implements UsuarioDao{
 		
 		} catch (SQLException e) {
 			
-			e.getMessage();
+			throw new RuntimeException(e.getMessage());
 		}
 		
 	}
@@ -67,7 +67,7 @@ public class UsuarioDaoImpl4 implements UsuarioDao{
 			
 			} catch (SQLException e) {
 			
-			e.getMessage();
+				throw new RuntimeException(e.getMessage());
 		}
 		
 		return usuarios;
@@ -99,7 +99,7 @@ public class UsuarioDaoImpl4 implements UsuarioDao{
 			
 			
 		}catch(SQLException e) {
-			e.getMessage();
+			throw new RuntimeException(e.getMessage());
 		}
 		
 		
@@ -152,7 +152,7 @@ public class UsuarioDaoImpl4 implements UsuarioDao{
 		
 			
 		} catch (SQLException e) {
-            e.getMessage();
+			throw new RuntimeException(e.getMessage());
         }
 		
 		
