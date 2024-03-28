@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -99,20 +100,22 @@ public class TransferenciaDaoImpl4 implements TransferenciaDao {
 			while (buffReader.ready()) {
 				String line = buffReader.readLine();
 
-				String cpf = line.substring(0, 10);
-				String agenciaContaOrigem = line.substring(11, 14);
-				String numeroContaOrigem = line.substring(15, 22);
-				String agenciaContaDestino = line.substring(23, 26);
-				String numeroContaDestino = line.substring(27, 34);
-				String valor = line.substring(35, 42);
-				String data = line.substring(43, 68);
-				String tipoTransferencia = line.substring(69, 69);
+				String cpf = line.substring(0, 11);
+				String agenciaContaOrigem = line.substring(11, 15);
+				String numeroContaOrigem = line.substring(15, 23);
+				String agenciaContaDestino = line.substring(23, 27);
+				String numeroContaDestino = line.substring(27, 35);
+				String valor = line.substring(35, 43);
+				String data = line.substring(43, 69);
+				String tipoTransferencia = line.substring(69);
 
 				int agenciaContaOrigem2 = Integer.parseInt(agenciaContaOrigem);
 				int numeroContaOrigem2 = Integer.parseInt(numeroContaOrigem);
 				int agenciaContaDestino2 = Integer.parseInt(agenciaContaDestino);
 				int numeroContaDestino2 = Integer.parseInt(numeroContaDestino);
 				BigDecimal valor2 = new BigDecimal(valor).divide(BigDecimal.valueOf(100));
+				LocalDateTime date = LocalDateTime.parse(line.substring(43, 69),
+				DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS"));
 
 				String tipo = "TED";
 				String sql = "INSERT INTO TB_TRANSFERENCIA ( NR_VAOR, FK_ID_CONTA_ORIGEM, FK_ID_CONTA_DESTINO, DT_DATA, TIPO ) VALUES ( ?, ?, ?,?,?);"
@@ -121,12 +124,12 @@ public class TransferenciaDaoImpl4 implements TransferenciaDao {
 
 				PreparedStatement pst = con.prepareStatement(sql);
 
-				if (line.substring(69).equals("D")) {
+				if (line.substring(69).equals("E")) {
 					pst.setLong(2, agenciaContaOrigem2);
 					pst.setLong(3, numeroContaOrigem2);
 				}
 
-				if (line.substring(69).equals("C")) {
+				if (line.substring(69).equals("S")) {
 					pst.setLong(3, agenciaContaDestino2);
 					pst.setLong(2, numeroContaDestino2);
 				}
@@ -134,7 +137,7 @@ public class TransferenciaDaoImpl4 implements TransferenciaDao {
 				pst.setBigDecimal(1, valor2);
 				pst.setLong(2, retornarIdPorAgenciaNumero(agenciaContaOrigem2, numeroContaOrigem2));
 				pst.setLong(3, retornarIdPorAgenciaNumero(agenciaContaDestino2, numeroContaDestino2));
-				pst.setDate(4, Date.valueOf(data));
+				pst.setDate(4, Date.valueOf(date.toLocalDate()));
 				pst.setString(5, tipo);
 
 				pst.setBigDecimal(6, valor2);
