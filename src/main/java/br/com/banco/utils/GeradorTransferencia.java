@@ -33,7 +33,8 @@ public class GeradorTransferencia {
 	private List<Conta> listaConta=new ArrayList<>();
 	private List<Short> listaAgencia = new ArrayList<>();
 	private List<Integer> listaNumeroConta=new ArrayList<>();
-
+	private char tipo;
+	
 	public void salvarTransferencias() {
 		for (Transferencia trans : lista) {
 			try (BufferedWriter writer = new BufferedWriter(new FileWriter(
@@ -41,7 +42,7 @@ public class GeradorTransferencia {
 				writer.write(cpf + "" + listaAgencia.get(indexOrigem) + ""
 						+ listaNumeroConta.get(indexOrigem)+ "" + listaAgencia.get(indexDestino)
 						+ "" + listaNumeroConta.get(indexDestino) + "" + trans.getValor() + ""
-						+ trans.getData() + "" + trans.getTipo());
+						+ trans.getData() + "" + tipo);
 				writer.flush();
 				writer.newLine();
 			} catch (IOException e) {
@@ -57,14 +58,14 @@ public class GeradorTransferencia {
 		for (int i = 0; i < i1; i++) {
 			Transferencia trans = new Transferencia();
 			acessarDados();
-			indexDestino = ran.nextInt(listaConta.size()+1);
-			indexOrigem = ran.nextInt(listaConta.size()+1);
+			indexDestino = ran.nextInt(listaConta.size());
+			indexOrigem = ran.nextInt(listaConta.size());
+			tipo = ran.nextBoolean() ? 'E' : 'S';
 			while (indexDestino == indexOrigem) {
 				indexOrigem = ran.nextInt(listaConta.size());
 			}
 			trans.setValor(new BigDecimal(ran.nextDouble(10, 10000)).setScale(2, BigDecimal.ROUND_HALF_UP));
 			trans.setData(geradorData());
-			trans.setTipo(geradorTipo());
 			lista.add(trans);
 		}
 		salvarTransferencias();
@@ -78,17 +79,6 @@ public class GeradorTransferencia {
 		date = LocalDateTime.of(2023, mes, dia, ran.nextInt(24), ran.nextInt(60), ran.nextInt(60),
 				ran.nextInt(1000) * 1000);
 		return date;
-	}
-
-	public String geradorTipo() {
-		String tipo = null;
-		int o = ran.nextInt(1, 2);
-		if (o == 1) {
-			tipo = "E";
-		} else {
-			tipo = "S";
-		}
-		return tipo;
 	}
 
 	public void acessarDados() {
