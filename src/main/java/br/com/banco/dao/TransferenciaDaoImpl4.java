@@ -100,18 +100,18 @@ public class TransferenciaDaoImpl4 implements TransferenciaDao {
 				String line = buffReader.readLine();
 
 				String cpf = line.substring(0, 10);
-				String AgenciaContaOrigem = line.substring(11, 14);
-				String NumeroContaOrigem = line.substring(15, 22);
-				String AgenciaContaDestino = line.substring(23, 26);
-				String NumeroContaDestino = line.substring(27, 34);
+				String agenciaContaOrigem = line.substring(11, 14);
+				String numeroContaOrigem = line.substring(15, 22);
+				String agenciaContaDestino = line.substring(23, 26);
+				String numeroContaDestino = line.substring(27, 34);
 				String valor = line.substring(35, 42);
 				String data = line.substring(43, 68);
 				String tipoTransferencia = line.substring(69, 69);
 
-				int agenciaContaOrigem2 = Integer.parseInt(AgenciaContaOrigem);
-				int numeroContaOrigem2 = Integer.parseInt(NumeroContaOrigem);
-				int agenciaContaDestino2 = Integer.parseInt(AgenciaContaDestino);
-				int numeroContaDestino2 = Integer.parseInt(NumeroContaDestino);
+				int agenciaContaOrigem2 = Integer.parseInt(agenciaContaOrigem);
+				int numeroContaOrigem2 = Integer.parseInt(numeroContaOrigem);
+				int agenciaContaDestino2 = Integer.parseInt(agenciaContaDestino);
+				int numeroContaDestino2 = Integer.parseInt(numeroContaDestino);
 				BigDecimal valor2 = new BigDecimal(valor).divide(BigDecimal.valueOf(100));
 
 				String tipo = "TED";
@@ -132,8 +132,8 @@ public class TransferenciaDaoImpl4 implements TransferenciaDao {
 				}
 
 				pst.setBigDecimal(1, valor2);
-				pst.setLong(2, transferencia.getIdContaOrigem());
-				pst.setLong(3, transferencia.getIdContaDestino());
+				pst.setLong(2, retornarIdPorAgenciaNumero(agenciaContaOrigem2, numeroContaOrigem2));
+				pst.setLong(3, retornarIdPorAgenciaNumero(agenciaContaDestino2, numeroContaDestino2));
 				pst.setDate(4, Date.valueOf(data));
 				pst.setString(5, tipo);
 
@@ -145,8 +145,6 @@ public class TransferenciaDaoImpl4 implements TransferenciaDao {
 				pst.setInt(10, agenciaContaDestino2);
 				pst.setInt(11, numeroContaDestino2);
 
-				
-
 				pst.executeUpdate();
 
 			}
@@ -154,6 +152,22 @@ public class TransferenciaDaoImpl4 implements TransferenciaDao {
 			throw new RuntimeException(e.getMessage());
 		} catch (IOException e) {
 
+			throw new RuntimeException(e.getMessage());
+		}
+
+	}
+
+	public long retornarIdPorAgenciaNumero(int agencia, int numeroConta) {
+
+		try (Connection con = ConnectionJDBC.abrir();) {
+			String sql = "SELECT  PK_ID_CONTA  FROM TB_CONTA WHERE NR_AGENCIA= ? NR_NUMERO_CONTA= ?";
+			PreparedStatement pst = con.prepareStatement(sql);
+			ResultSet rs = pst.executeQuery();
+			long idConta = rs.getLong("PK_ID_CONTA");
+			pst.setInt(1, agencia);
+			pst.setInt(2, numeroConta);
+			return idConta;
+		} catch (SQLException e) {
 			throw new RuntimeException(e.getMessage());
 		}
 
