@@ -18,8 +18,8 @@ public class ExportadorConta {
 		String idUsuario=String.format("%05d", conta.getIdUsuario());
 		String numeroConta=String.format("%08d", conta.getNumeroConta());
 		String agencia=String.format("%04d", conta.getAgencia());
-		String saldo= String.format("%09.2f", (double) conta.getSaldo());
-		String limiteCredito= String.format("%09.2f" (double), conta.getLimiteCredito());
+		String saldo= String.format("%09.2f", conta.getSaldo().doubleValue());
+		
 		
 			
 			
@@ -30,7 +30,7 @@ public class ExportadorConta {
 		+ "-" + numeroConta
 		+ "-" + agencia
 		+ "-" + saldo
-		+ "-" + limiteCredito);
+		);
 		writer.newLine();
 		}
 		} catch (IOException e) {

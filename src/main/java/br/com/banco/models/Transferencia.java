@@ -19,6 +19,42 @@ public class Transferencia {
 	private BigDecimal valor;
 	private LocalDateTime data;
 	private String tipo;
+	private short agenciaOrigem;
+	private short agenciaDestino;
+	private int numeroContaOrigem;
+	private int numeroContaDestino;
+
+	public short getAgenciaOrigem() {
+		return agenciaOrigem;
+	}
+
+	public void setAgenciaOrigem(short agenciaOrigem) {
+		this.agenciaOrigem = agenciaOrigem;
+	}
+
+	public short getAgenciaDestino() {
+		return agenciaDestino;
+	}
+
+	public void setAgenciaDestino(short agenciaDestino) {
+		this.agenciaDestino = agenciaDestino;
+	}
+
+	public int getNumeroContaOrigem() {
+		return numeroContaOrigem;
+	}
+
+	public void setNumeroContaOrigem(int numeroContaOrigem) {
+		this.numeroContaOrigem = numeroContaOrigem;
+	}
+
+	public int getNumeroContaDestino() {
+		return numeroContaDestino;
+	}
+
+	public void setNumeroContaDestino(int numeroContaDestino) {
+		this.numeroContaDestino = numeroContaDestino;
+	}
 
 	public long getIdTransferencia() {
 		return idTransferencia;

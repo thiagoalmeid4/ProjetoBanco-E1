@@ -34,37 +34,45 @@ public class TransferenciaServiceImpl implements TransferenciaService {
 	@Override
 	public void transferir(Transferencia transferencia) {
 
+		Conta contaRecebe= contaDao.retornarPorAgenciaNum(transferencia.getAgenciaDestino(), transferencia.getNumeroContaDestino());
+		Conta contaPerde= contaDao.retornarPorAgenciaNum(transferencia.getAgenciaOrigem(), transferencia.getNumeroContaOrigem());
+		
+
+		
 		if (transferencia.getValor() == null) {
 			throw new RuntimeException("transferencia inválida");
 		}
-		Conta recebe = contaDao.retornarPorID(transferencia.getIdContaDestino());
-		Conta paga = contaDao.retornarPorID(transferencia.getIdContaOrigem());
+//		Conta recebe = contaDao.retornarPorID(transferencia.getIdContaDestino());
+//		Conta paga = contaDao.retornarPorID(transferencia.getIdContaOrigem());
 
-		if (transferencia.getValor().doubleValue() > paga.getSaldo().doubleValue()) {
+		if (transferencia.getValor().doubleValue() > contaPerde.getSaldo().doubleValue()) {
 			throw new RuntimeException("Saldo insuficiente");
 		}
 
-		var buscarContaOrigem = contaDao.retornarPorID(paga.getIdConta());
+		var buscarContaOrigem = contaDao.retornarPorID(contaPerde.getIdConta());
 
-		if (buscarContaOrigem != null) {
-			paga.setSaldo(paga.getSaldo().subtract(transferencia.getValor()));
+		if (contaPerde != null) {
+			contaPerde.setSaldo(contaPerde.getSaldo().subtract(transferencia.getValor()));
 		} else {
 			throw new RuntimeException("ContaOrigem nao encontrada");
 		}
 
-		var buscarContaDestino = contaDao.retornarPorID(recebe.getIdConta());
+		var buscarContaDestino = contaDao.retornarPorID(contaRecebe.getIdConta());
 
-		if (buscarContaDestino != null) {
-			recebe.setSaldo(recebe.getSaldo().add(transferencia.getValor()));
+		if (contaRecebe != null) {
+			contaRecebe.setSaldo(contaRecebe.getSaldo().add(transferencia.getValor()));
 		} else {
 			throw new RuntimeException("ContaDestino nao encontrada");
 		}
 
+		
+		transferencia.setIdContaOrigem(contaPerde.getIdConta());
+		transferencia.setIdContaDestino(contaRecebe.getIdConta());
 		transferencia.setData(LocalDateTime.now());
 		transferencia.setTipo("TED");
 		dao.salvar(transferencia);
-		contaDao.atualizar(paga);
-		contaDao.atualizar(recebe);
+		contaDao.atualizar(contaPerde);
+		contaDao.atualizar(contaRecebe);
 	}
 
 	@Override
