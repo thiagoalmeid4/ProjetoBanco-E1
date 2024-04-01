@@ -32,22 +32,15 @@ public class GeradorTransferencia {
 	private List<Short> listaAgencia = new ArrayList<>();
 	private List<Integer> listaNumeroConta=new ArrayList<>();
 	private List<String> listaCpf= new ArrayList<>();
-	private char tipo;
 	String cpf;
 	String valorFormatado;
 	public void salvarTransferencias(Transferencia trans) {
 			try (BufferedWriter writer = new BufferedWriter(new FileWriter(
 					"C:\\Users\\ebabetto\\Documents\\Projetos\\BancoEquipe1\\TransferenciasGeradas.txt", true))) {
-				if(tipo == 'E') {
-				 cpf =listaCpf.get(indexDestino);
-				}
-				else {
-				cpf=listaCpf.get(indexOrigem);
-				}
 				writer.write(cpf + "" + listaAgencia.get(indexOrigem) + ""
 						+ listaNumeroConta.get(indexOrigem)+ "" + listaAgencia.get(indexDestino)
 						+ "" + listaNumeroConta.get(indexDestino) + "" +valorFormatado + ""
-						+ trans.getData() + "" + tipo);
+						+ trans.getData());
 				writer.flush();
 				writer.newLine();
 				
@@ -65,7 +58,6 @@ public class GeradorTransferencia {
 			acessarDados();
 			indexDestino = ran.nextInt(listaConta.size());
 			indexOrigem = ran.nextInt(listaConta.size());
-			tipo = ran.nextBoolean() ? 'E' : 'S';
 			while (indexDestino == indexOrigem) {
 				indexOrigem = ran.nextInt(listaConta.size());
 			}
