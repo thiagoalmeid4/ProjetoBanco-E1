@@ -1,6 +1,5 @@
 package br.com.banco.service;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,22 +41,12 @@ public class TransferenciaServiceImpl implements TransferenciaService {
 		if (transferencia.getValor() == null) {
 			throw new RuntimeException("transferencia inválida");
 		}
-//		Conta recebe = contaDao.retornarPorID(transferencia.getIdContaDestino());
-//		Conta paga = contaDao.retornarPorID(transferencia.getIdContaOrigem());
 
 		if (transferencia.getValor().doubleValue() > contaPerde.getSaldo().doubleValue()) {
 			throw new RuntimeException("Saldo insuficiente");
 		}
 
-		var buscarContaOrigem = contaDao.retornarPorID(contaPerde.getIdConta());
-
-		if (contaPerde != null) {
-			contaPerde.setSaldo(contaPerde.getSaldo().subtract(transferencia.getValor()));
-		} else {
-			throw new RuntimeException("ContaOrigem nao encontrada");
-		}
-
-		var buscarContaDestino = contaDao.retornarPorID(contaRecebe.getIdConta());
+		contaPerde.setSaldo(contaPerde.getSaldo().subtract(transferencia.getValor()));
 
 		if (contaRecebe != null) {
 			contaRecebe.setSaldo(contaRecebe.getSaldo().add(transferencia.getValor()));
@@ -70,6 +59,7 @@ public class TransferenciaServiceImpl implements TransferenciaService {
 		transferencia.setIdContaDestino(contaRecebe.getIdConta());
 		transferencia.setData(LocalDateTime.now());
 		transferencia.setTipo("TED");
+		
 		dao.salvar(transferencia);
 		contaDao.atualizar(contaPerde);
 		contaDao.atualizar(contaRecebe);
@@ -124,14 +114,6 @@ public class TransferenciaServiceImpl implements TransferenciaService {
 
 	}
 	
-	
-	private void verificacaoValor() {
-		var transf = new Transferencia();
-		
-		   if (transf.getValor().compareTo(BigDecimal.ZERO) <= 0) {
-			throw new RuntimeException("O valor da transacao é necessario ser maior que 0");
-		}
-	}
 	
 	public void gerarTransferencia(int i) {
 		gt.geradorTransferencias(i);
