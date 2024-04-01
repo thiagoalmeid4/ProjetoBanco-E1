@@ -117,6 +117,12 @@ public class TransferenciaDaoImpl4 implements TransferenciaDao {
 				LocalDateTime date = LocalDateTime.parse(line.substring(43, 69),
 				DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS"));
 
+				if(!verificacaoSaldo(agenciaContaOrigem2,numeroContaOrigem2,valor2)) {
+					continue;
+				}
+				
+				
+				
 				String tipo = "TED";
 				String sql = "INSERT INTO TB_TRANSFERENCIA ( NR_VAOR, FK_ID_CONTA_ORIGEM, FK_ID_CONTA_DESTINO, DT_DATA, TIPO ) VALUES ( ?, ?, ?,?,?);"
 						+ "UPDATE TB_CONTA SET NR_SALDO=? WHERE NR_AGENCIA=?  AND NR_NUMERO_CONTA=?;"
@@ -124,15 +130,7 @@ public class TransferenciaDaoImpl4 implements TransferenciaDao {
 
 				PreparedStatement pst = con.prepareStatement(sql);
 
-				if (line.substring(69).equals("E")) {
-					pst.setLong(2, agenciaContaOrigem2);
-					pst.setLong(3, numeroContaOrigem2);
-				}
-
-				if (line.substring(69).equals("S")) {
-					pst.setLong(3, agenciaContaDestino2);
-					pst.setLong(2, numeroContaDestino2);
-				}
+				
 
 				pst.setBigDecimal(1, valor2);
 				pst.setLong(2, retornarIdPorAgenciaNumero(agenciaContaOrigem2, numeroContaOrigem2));
@@ -175,5 +173,34 @@ public class TransferenciaDaoImpl4 implements TransferenciaDao {
 		}
 
 	}
+
+
+	private boolean verificacaoSaldo(int agencia, int numero, BigDecimal valor) {
+		String sql= "SELECT NR_SALDO FROM TB_CONTA WHERE NR_AGENCIA=? AND NR_NUMERO_CONTA";
+		
+		try(Connection con = ConnectionJDBC.abrir(); 
+				PreparedStatement pst = con.prepareStatement(sql)){
+			
+			pst.setInt(1, agencia);
+			pst.setInt(2, numero);
+			ResultSet rs= pst.executeQuery();
+			
+			if(rs.next()) {
+				return rs.getBigDecimal("NR_SALDO").doubleValue()>valor.doubleValue();
+			} else {
+				throw new RuntimeException("saldo indisponivel");
+			}
+		}catch (SQLException e) {
+			 throw new RuntimeException(e.getMessage());
+		}
+			
+		
+	}
+
+
+
+
+
+
 
 }
