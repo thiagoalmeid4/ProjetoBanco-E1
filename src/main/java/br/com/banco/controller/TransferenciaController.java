@@ -28,10 +28,7 @@ public class TransferenciaController {
 	public ResponseEntity<List<Map<String, String>>> listar(@PathVariable Long id) {
 		Conta conta = new Conta();
 		conta.setIdConta(id);
-		if(conta!=null) {
-			return new ResponseEntity<>(service.retornarTransferenciasPorConta(conta), HttpStatus.OK);
-		}
-		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(service.retornarTransferenciasPorConta(conta), HttpStatus.OK);
 	}
 	
 	@PostMapping("/transferir")
