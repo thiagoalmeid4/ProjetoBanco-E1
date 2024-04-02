@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -36,7 +37,7 @@ public class GeradorTransferencia {
 	String valorFormatado;
 	public void salvarTransferencias(Transferencia trans) {
 			try (BufferedWriter writer = new BufferedWriter(new FileWriter(
-					"C:\\Users\\ebabetto\\Documents\\Projetos\\BancoEquipe1\\TransferenciasGeradas.txt", true))) {
+					"C:\\Users\\vmontezani\\Documents\\Projetos\\ProjetoEquipe1\\TransferenciasGeradas.txt", true))) {
 				writer.write(cpf + "" + listaAgencia.get(indexOrigem) + ""
 						+ listaNumeroConta.get(indexOrigem)+ "" + listaAgencia.get(indexDestino)
 						+ "" + listaNumeroConta.get(indexDestino) + "" +valorFormatado + ""
@@ -69,13 +70,18 @@ public class GeradorTransferencia {
 	}
 
 	public LocalDateTime geradorData() {
-		LocalDateTime date = null;
-		int mes = ran.nextInt(12) + 1;
-		int maxdia = LocalDate.of(2023, mes, 1).lengthOfMonth();
-		int dia = ran.nextInt(maxdia) + 1;
-		date = LocalDateTime.of(2023, mes, dia, ran.nextInt(24), ran.nextInt(60), ran.nextInt(60),
-				ran.nextInt(1000) * 1000);
-		return date;
+		
+		int ano = 2023;         
+		int mes = ran.nextInt(12) + 1;       
+		int maxdia = LocalDateTime.of(ano, mes, 1, 0, 0, 0).toLocalDate().lengthOfMonth();         
+		int dia = ran.nextInt(maxdia) + 1;        
+		int hora = ran.nextInt(24);         
+		int minuto = ran.nextInt(60);        
+		int segundo = ran.nextInt(60);         
+
+		String dataFormatada = String.format("%04d-%02d-%02dT%02d:%02d:%02d", ano, mes, dia, hora, minuto, segundo);         // Converter a string formatada para
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");         
+		return LocalDateTime.parse(dataFormatada, formatter);
 	}
 
 	public void acessarDados() {

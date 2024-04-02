@@ -118,4 +118,15 @@ public class TransferenciaServiceImpl implements TransferenciaService {
 	public void gerarTransferencia(int i) {
 		gt.geradorTransferencias(i);
 	}
+
+
+	public void importTransf() {
+		dao.transfMultipla();
+	}
+
+
+
+
+
+
 }
