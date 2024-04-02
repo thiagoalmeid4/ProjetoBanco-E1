@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 import br.com.banco.models.Conta;
 @Component
 public class ExportadorConta {
-	public static void exportarParaTxt(List<Conta> contas) {
-	try (BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\Users\\ypiovarczik\\Downloads\\teste\\teste.txt", true))) {
+	public void exportarParaTxt(List<Conta> contas) {
+	try (BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\Users\\ebabetto\\Documents\\Projetos\\BancoEquipe1\\Contas.txt", false))) {
 		for (Conta conta : contas) {
 		
 		String idConta=String.format("%05d", conta.getIdConta());
@@ -25,11 +25,11 @@ public class ExportadorConta {
 			
 			
 			
-		writer.write(conta.getIdConta() 
-		+ "-" + idUsuario
-		+ "-" + numeroConta
-		+ "-" + agencia
-		+ "-" + saldo
+		writer.write(idConta 
+		+ idUsuario
+		+ numeroConta
+		+ agencia
+		+  saldo
 		);
 		writer.newLine();
 		}

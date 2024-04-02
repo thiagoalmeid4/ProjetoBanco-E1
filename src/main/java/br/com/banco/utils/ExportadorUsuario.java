@@ -11,8 +11,8 @@ import br.com.banco.models.Usuario;
 @Component
 public class ExportadorUsuario {
 
-	    public static void exportarParaTxt(List<Usuario> usuarios) {
-		try (BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\Users\\ypiovarczik\\Downloads\\teste\\verificar.txt", true))) {
+	    public void exportarParaTxt(List<Usuario> usuarios) {
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\Users\\ebabetto\\Documents\\Projetos\\BancoEquipe1\\Usuarios.txt", true))) {
 			for (Usuario usuario : usuarios) {
 			writer.write(usuario.getIdUsuario() 
 			+ ";" + usuario.getNome()
