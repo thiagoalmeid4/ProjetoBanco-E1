@@ -11,7 +11,7 @@ import br.com.banco.models.Conta;
 @Component
 public class ExportadorConta {
 	public void exportarParaTxt(List<Conta> contas) {
-	try (BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\Users\\ebabetto\\Documents\\Projetos\\BancoEquipe1\\Contas.txt", false))) {
+	try (BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\Users\\hnantes\\Documents\\BancoDigitalEquipe1\\Contas.txt", false))) {
 		for (Conta conta : contas) {
 		
 		String idConta=String.format("%05d", conta.getIdConta());
@@ -19,7 +19,7 @@ public class ExportadorConta {
 		String numeroConta=String.format("%08d", conta.getNumeroConta());
 		String agencia=String.format("%04d", conta.getAgencia());
 		String saldo= String.format("%09.2f", conta.getSaldo().doubleValue());
-		
+		saldo = saldo.replace(",", "");
 		
 			
 			
