@@ -124,8 +124,8 @@ public class TransferenciaDaoImpl4 implements TransferenciaDao {
 				
 				String tipo = "TED";
 				String sql = "INSERT INTO TB_TRANSFERENCIA ( NR_VAOR, FK_ID_CONTA_ORIGEM, FK_ID_CONTA_DESTINO, DT_DATA, TIPO ) VALUES ( ?, ?, ?,?,?);"
-						+ "UPDATE TB_CONTA SET NR_SALDO=? WHERE NR_AGENCIA=?  AND NR_NUMERO_CONTA=?;"
-						+ "UPDATE TB_CONTA SET NR_SALDO=? WHERE NR_AGENCIA=? AND NR_NUMERO_CONTA=?;";
+						+ "UPDATE TB_CONTA SET NR_SALDO= NR_SALDO - NR_VAOR=? WHERE NR_AGENCIA=?  AND NR_NUMERO_CONTA=?;"
+						+ "UPDATE TB_CONTA SET NR_SALDO= NR_SALDO + NR_VAOR=? WHERE NR_AGENCIA=? AND NR_NUMERO_CONTA=?;";
 
 				PreparedStatement pst = con.prepareStatement(sql);
 
@@ -160,13 +160,20 @@ public class TransferenciaDaoImpl4 implements TransferenciaDao {
 	public long retornarIdPorAgenciaNumero(int agencia, int numeroConta) {
 
 		try (Connection con = ConnectionJDBC.abrir();) {
-			String sql = "SELECT  PK_ID_CONTA  FROM TB_CONTA WHERE NR_AGENCIA= ? NR_NUMERO_CONTA= ?";
+			String sql = "SELECT  PK_ID_CONTA  FROM TB_CONTA WHERE NR_AGENCIA= ? AND NR_NUMERO_CONTA= ?";
 			PreparedStatement pst = con.prepareStatement(sql);
-			ResultSet rs = pst.executeQuery();
-			long idConta = rs.getLong("PK_ID_CONTA");
+			ResultSet rs=null;
+			if(rs.next()) {
 			pst.setInt(1, agencia);
 			pst.setInt(2, numeroConta);
+			rs = pst.executeQuery();
+			long idConta = rs.getLong("PK_ID_CONTA");
 			return idConta;
+			}
+			else {
+				throw new RuntimeException("conta nao encontrada");
+			}
+			
 		} catch (SQLException e) {
 			throw new RuntimeException(e.getMessage());
 		}
