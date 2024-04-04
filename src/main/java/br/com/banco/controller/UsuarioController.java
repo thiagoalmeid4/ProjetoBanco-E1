@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import br.com.banco.connection.ConnectionJDBC;
 import br.com.banco.dtos.LoginDtos;
 import br.com.banco.dtos.UsuarioDto;
 import br.com.banco.models.Usuario;
@@ -26,10 +24,10 @@ public class UsuarioController {
 	ContaServiceImpl contaService;
 
 	@PostMapping("/salvar")
-	public ResponseEntity salvarUsuario(@RequestBody Usuario usuario) {
+	public ResponseEntity <String>salvarUsuario(@RequestBody Usuario usuario) {
 		usuarioService.salvarUsuario(usuario);
 		contaService.gerarConta(usuario);
-		return new ResponseEntity(HttpStatus.CREATED);
+		return new ResponseEntity<String>("Parabéns cadastro concluído", HttpStatus.CREATED);
 	}
 
 	@PostMapping("/login")

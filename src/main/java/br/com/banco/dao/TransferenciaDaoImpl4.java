@@ -25,15 +25,19 @@ public class TransferenciaDaoImpl4 implements TransferenciaDao {
 
 	@Override
 	public void salvar(Transferencia transferencia) {
-		String sql = "INSERT INTO TB_TRANSFERENCIA (PK_ID_TRANSFERENCIA, FK_ID_CONTA_ORIGEM, FK_ID_CONTA_DESTINO, NR_VALOR, DT_DATA, TIPO) VALUES (?, ?, ?, ?)";
+		String sql = "INSERT INTO TB_TRANSFERENCIA (FK_ID_CONTA_ORIGEM, FK_ID_CONTA_DESTINO, NR_VALOR, DT_DATA, TIPO) VALUES (?, ?, ?, ?, ?)";;
 
 		try (Connection con = ConnectionJDBC.abrir(); PreparedStatement pst = con.prepareStatement(sql)) {
-			pst.setLong(1, transferencia.getIdTransferencia());
-			pst.setLong(3, transferencia.getIdContaOrigem());
-			pst.setLong(4, transferencia.getIdContaDestino());
-			pst.setBigDecimal(2, transferencia.getValor());
-			pst.setDate(5, Date.valueOf(transferencia.getData().toLocalDate()));
-			pst.setString(6, transferencia.getTipo());
+			pst.setLong(1, transferencia.getIdContaOrigem());
+			System.out.println("PASSEI AQUI '1");		
+			pst.setLong(2, transferencia.getIdContaDestino());
+			System.out.println("PASSEI AQUI '2");
+			pst.setBigDecimal(3, transferencia.getValor());
+			System.out.println("PASSEI AQUI '3");
+			pst.setDate(4, Date.valueOf(transferencia.getData().toLocalDate()));
+			System.out.println("PASSEI AQUI '4");
+			pst.setString(5, transferencia.getTipo());
+			System.out.println("PASSEI AQUI '5");
 			pst.executeUpdate();
 			pst.close();
 		} catch (SQLException e) {
@@ -94,7 +98,7 @@ public class TransferenciaDaoImpl4 implements TransferenciaDao {
 		Conta conta = new Conta();
 		try (Connection con = ConnectionJDBC.abrir();) {
 
-			BufferedReader buffReader = new BufferedReader(new FileReader(""));
+			BufferedReader buffReader = new BufferedReader(new FileReader("C:\\Users\\vmontezani\\Documents\\Projetos\\ProjetoEquipe1\\TransferenciasGeradas.txt"));
 			// PreparedStatement pst = connection.prepareStatement(sql);
 
 			while (buffReader.ready()) {
@@ -106,33 +110,30 @@ public class TransferenciaDaoImpl4 implements TransferenciaDao {
 				String agenciaContaDestino = line.substring(23, 27);
 				String numeroContaDestino = line.substring(27, 35);
 				String valor = line.substring(35, 43);
-				String data = line.substring(43, 69);
-				String tipoTransferencia = line.substring(69);
+				String data = line.substring(43, 62);
+				
 
 				int agenciaContaOrigem2 = Integer.parseInt(agenciaContaOrigem);
 				int numeroContaOrigem2 = Integer.parseInt(numeroContaOrigem);
 				int agenciaContaDestino2 = Integer.parseInt(agenciaContaDestino);
 				int numeroContaDestino2 = Integer.parseInt(numeroContaDestino);
 				BigDecimal valor2 = new BigDecimal(valor).divide(BigDecimal.valueOf(100));
-				LocalDateTime date = LocalDateTime.parse(line.substring(43, 69),
-				DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS"));
+				LocalDateTime date = LocalDateTime.parse(data, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
 
+				if(!verificacaoSaldo(agenciaContaOrigem2,numeroContaOrigem2,valor2)) {
+					continue;
+				}
+				
+				
+				
 				String tipo = "TED";
-				String sql = "INSERT INTO TB_TRANSFERENCIA ( NR_VAOR, FK_ID_CONTA_ORIGEM, FK_ID_CONTA_DESTINO, DT_DATA, TIPO ) VALUES ( ?, ?, ?,?,?);"
-						+ "UPDATE TB_CONTA SET NR_SALDO=? WHERE NR_AGENCIA=?  AND NR_NUMERO_CONTA=?;"
-						+ "UPDATE TB_CONTA SET NR_SALDO=? WHERE NR_AGENCIA=? AND NR_NUMERO_CONTA=?;";
+				String sql = "INSERT INTO TB_TRANSFERENCIA ( NR_VALOR, FK_ID_CONTA_ORIGEM, FK_ID_CONTA_DESTINO, DT_DATA, TIPO ) VALUES ( ?, ?, ?,?,?);"
+						+ "UPDATE TB_CONTA SET NR_SALDO= NR_SALDO - NR_VAOR=? WHERE NR_AGENCIA=?  AND NR_NUMERO_CONTA=?;"
+						+ "UPDATE TB_CONTA SET NR_SALDO= NR_SALDO + NR_VAOR=? WHERE NR_AGENCIA=? AND NR_NUMERO_CONTA=?;";
 
 				PreparedStatement pst = con.prepareStatement(sql);
 
-				if (line.substring(69).equals("E")) {
-					pst.setLong(2, agenciaContaOrigem2);
-					pst.setLong(3, numeroContaOrigem2);
-				}
-
-				if (line.substring(69).equals("S")) {
-					pst.setLong(3, agenciaContaDestino2);
-					pst.setLong(2, numeroContaDestino2);
-				}
+				
 
 				pst.setBigDecimal(1, valor2);
 				pst.setLong(2, retornarIdPorAgenciaNumero(agenciaContaOrigem2, numeroContaOrigem2));
@@ -163,17 +164,53 @@ public class TransferenciaDaoImpl4 implements TransferenciaDao {
 	public long retornarIdPorAgenciaNumero(int agencia, int numeroConta) {
 
 		try (Connection con = ConnectionJDBC.abrir();) {
-			String sql = "SELECT  PK_ID_CONTA  FROM TB_CONTA WHERE NR_AGENCIA= ? NR_NUMERO_CONTA= ?";
+			String sql = "SELECT  PK_ID_CONTA  FROM TB_CONTA WHERE NR_AGENCIA= ? AND NR_NUMERO_CONTA= ?";
 			PreparedStatement pst = con.prepareStatement(sql);
-			ResultSet rs = pst.executeQuery();
-			long idConta = rs.getLong("PK_ID_CONTA");
+			ResultSet rs=null;
+			if(rs.next()) {
 			pst.setInt(1, agencia);
 			pst.setInt(2, numeroConta);
+			rs = pst.executeQuery();
+			long idConta = rs.getLong("PK_ID_CONTA");
 			return idConta;
+			}
+			else {
+				throw new RuntimeException("conta nao encontrada");
+			}
+			
 		} catch (SQLException e) {
 			throw new RuntimeException(e.getMessage());
 		}
 
 	}
+
+
+	private boolean verificacaoSaldo(int agencia, int numero, BigDecimal valor) {
+		String sql= "SELECT NR_SALDO FROM TB_CONTA WHERE NR_AGENCIA=? AND NR_NUMERO_CONTA=?";
+		
+		try(Connection con = ConnectionJDBC.abrir(); 
+				PreparedStatement pst = con.prepareStatement(sql)){
+			
+			pst.setInt(1, agencia);
+			pst.setInt(2, numero);
+			ResultSet rs= pst.executeQuery();
+			
+			if(rs.next()) {
+				return rs.getBigDecimal("NR_SALDO").doubleValue()>valor.doubleValue();
+			} else {
+				throw new RuntimeException("saldo indisponivel");
+			}
+		}catch (SQLException e) {
+			 throw new RuntimeException(e.getMessage());
+		}
+			
+		
+	}
+
+
+
+
+
+
 
 }

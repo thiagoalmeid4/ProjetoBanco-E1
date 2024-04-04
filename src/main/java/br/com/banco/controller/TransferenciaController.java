@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.banco.dao.TransferenciaDaoImpl4;
 import br.com.banco.models.Conta;
 import br.com.banco.models.Transferencia;
 import br.com.banco.service.TransferenciaServiceImpl;
@@ -23,15 +24,13 @@ public class TransferenciaController {
 	
 	@Autowired
 	TransferenciaServiceImpl service;
+	
 
 	@GetMapping("/listarPorConta/{id}")
 	public ResponseEntity<List<Map<String, String>>> listar(@PathVariable Long id) {
 		Conta conta = new Conta();
 		conta.setIdConta(id);
-		if(conta!=null) {
-			return new ResponseEntity<>(service.retornarTransferenciasPorConta(conta), HttpStatus.OK);
-		}
-		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(service.retornarTransferenciasPorConta(conta), HttpStatus.OK);
 	}
 	
 	@PostMapping("/transferir")
@@ -48,6 +47,8 @@ public class TransferenciaController {
 	@PostMapping("/gerar/{i}")
 	public ResponseEntity<String> gerarTransferencia(@PathVariable int i){
 		service.gerarTransferencia(i);
+		service.importTransf();
 		return new ResponseEntity<>("Gerado transferencia",HttpStatus.OK);
+		
 	}
 }

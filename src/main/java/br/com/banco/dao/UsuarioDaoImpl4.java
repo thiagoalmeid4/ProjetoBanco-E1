@@ -56,6 +56,7 @@ public class UsuarioDaoImpl4 implements UsuarioDao{
 		
 		while(rs.next()) {
 			Usuario user = new Usuario();
+			user.setIdUsuario(rs.getLong("PK_ID_USUARIO"));
 			user.setNome(rs.getString("NM_NOME"));
 			user.setSenha(rs.getString("NM_SENHA"));
 			user.setCpf(rs.getString("NM_CPF"));
