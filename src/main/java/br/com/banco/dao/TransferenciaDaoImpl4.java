@@ -25,15 +25,19 @@ public class TransferenciaDaoImpl4 implements TransferenciaDao {
 
 	@Override
 	public void salvar(Transferencia transferencia) {
-		String sql = "INSERT INTO TB_TRANSFERENCIA (PK_ID_TRANSFERENCIA, FK_ID_CONTA_ORIGEM, FK_ID_CONTA_DESTINO, NR_VALOR, DT_DATA, TIPO) VALUES (?, ?, ?, ?)";
+		String sql = "INSERT INTO TB_TRANSFERENCIA (FK_ID_CONTA_ORIGEM, FK_ID_CONTA_DESTINO, NR_VALOR, DT_DATA, TIPO) VALUES (?, ?, ?, ?, ?)";;
 
 		try (Connection con = ConnectionJDBC.abrir(); PreparedStatement pst = con.prepareStatement(sql)) {
-			pst.setLong(1, transferencia.getIdTransferencia());
-			pst.setLong(3, transferencia.getIdContaOrigem());
-			pst.setLong(4, transferencia.getIdContaDestino());
-			pst.setBigDecimal(2, transferencia.getValor());
-			pst.setDate(5, Date.valueOf(transferencia.getData().toLocalDate()));
-			pst.setString(6, transferencia.getTipo());
+			pst.setLong(1, transferencia.getIdContaOrigem());
+			System.out.println("PASSEI AQUI '1");		
+			pst.setLong(2, transferencia.getIdContaDestino());
+			System.out.println("PASSEI AQUI '2");
+			pst.setBigDecimal(3, transferencia.getValor());
+			System.out.println("PASSEI AQUI '3");
+			pst.setDate(4, Date.valueOf(transferencia.getData().toLocalDate()));
+			System.out.println("PASSEI AQUI '4");
+			pst.setString(5, transferencia.getTipo());
+			System.out.println("PASSEI AQUI '5");
 			pst.executeUpdate();
 			pst.close();
 		} catch (SQLException e) {
@@ -123,7 +127,7 @@ public class TransferenciaDaoImpl4 implements TransferenciaDao {
 				
 				
 				String tipo = "TED";
-				String sql = "INSERT INTO TB_TRANSFERENCIA ( NR_VAOR, FK_ID_CONTA_ORIGEM, FK_ID_CONTA_DESTINO, DT_DATA, TIPO ) VALUES ( ?, ?, ?,?,?);"
+				String sql = "INSERT INTO TB_TRANSFERENCIA ( NR_VALOR, FK_ID_CONTA_ORIGEM, FK_ID_CONTA_DESTINO, DT_DATA, TIPO ) VALUES ( ?, ?, ?,?,?);"
 						+ "UPDATE TB_CONTA SET NR_SALDO= NR_SALDO - NR_VAOR=? WHERE NR_AGENCIA=?  AND NR_NUMERO_CONTA=?;"
 						+ "UPDATE TB_CONTA SET NR_SALDO= NR_SALDO + NR_VAOR=? WHERE NR_AGENCIA=? AND NR_NUMERO_CONTA=?;";
 
