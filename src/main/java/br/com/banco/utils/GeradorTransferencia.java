@@ -37,7 +37,7 @@ public class GeradorTransferencia {
 	public void salvarTransferencias(Transferencia trans) {
 			try (BufferedWriter writer = new BufferedWriter(new FileWriter(
 					"C:\\Users\\hnantes\\Documents\\Projetos\\BancoDigitalEquipe1\\TransferenciasGeradas.txt", true))) {
-				writer.write(cpf + "" + listaAgencia.get(indexOrigem) + ""
+				writer.write(listaCpf.get(indexOrigem) + "" + listaAgencia.get(indexOrigem) + ""
 						+ listaNumeroConta.get(indexOrigem)+ "" + listaAgencia.get(indexDestino)
 						+ "" + listaNumeroConta.get(indexDestino) + "" +valorFormatado + ""
 						+ trans.getData());
@@ -53,6 +53,7 @@ public class GeradorTransferencia {
 		for(Conta conta :cdi4.listarTodos()) {
 			listaConta.add(conta);
 		}
+		limparTxt();
 		for (int i = 0; i < i1; i++) {
 			Transferencia trans = new Transferencia();
 			acessarDados();
@@ -91,4 +92,13 @@ public class GeradorTransferencia {
 			e.printStackTrace();
 		}
 	}
+	private void limparTxt() {
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter(
+				"C:\\Users\\vmontezani\\Documents\\Projetos\\ProjetoEquipe1\\TransferenciasGeradas.txt", false))) {
+			writer.write("");
+			writer.flush();
+		}catch (IOException e) {
+			e.getMessage();
+		}
+}
 }
