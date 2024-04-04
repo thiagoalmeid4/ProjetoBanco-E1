@@ -36,7 +36,7 @@ public class GeradorTransferencia {
 	String valorFormatado;
 	public void salvarTransferencias(Transferencia trans) {
 			try (BufferedWriter writer = new BufferedWriter(new FileWriter(
-					"C:\\Users\\hnantes\\Documents\\Projetos\\BancoDigitalEquipe1\\TransferenciasGeradas.txt", true))) {
+					"C:\\Users\\ypiovarczik\\Downloads\\teste\\Banco_Digital_1\\TransferenciasGeradas.txt", true))) {
 				writer.write(listaCpf.get(indexOrigem) + "" + listaAgencia.get(indexOrigem) + ""
 						+ listaNumeroConta.get(indexOrigem)+ "" + listaAgencia.get(indexDestino)
 						+ "" + listaNumeroConta.get(indexDestino) + "" +valorFormatado + ""
@@ -62,7 +62,7 @@ public class GeradorTransferencia {
 			while (indexDestino == indexOrigem) {
 				indexOrigem = ran.nextInt(listaConta.size());
 			}
-			trans.setValor(new BigDecimal(ran.nextDouble(10, 10000)).setScale(2, BigDecimal.ROUND_HALF_UP));
+			trans.setValor(new BigDecimal(ran.nextDouble(10, 100)).setScale(2, BigDecimal.ROUND_HALF_UP));
 			valorFormatado = String.format("%09.2f", trans.getValor()).replace(",","");
 			trans.setData(geradorData());
 			salvarTransferencias(trans);
@@ -94,7 +94,7 @@ public class GeradorTransferencia {
 	}
 	private void limparTxt() {
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(
-				"C:\\Users\\vmontezani\\Documents\\Projetos\\ProjetoEquipe1\\TransferenciasGeradas.txt", false))) {
+				"C:\\Users\\ypiovarczik\\Downloads\\teste\\Banco_Digital_1\\TransferenciasGeradas.txt", false))) {
 			writer.write("");
 			writer.flush();
 		}catch (IOException e) {

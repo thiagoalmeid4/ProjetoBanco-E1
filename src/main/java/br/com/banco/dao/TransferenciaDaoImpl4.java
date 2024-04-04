@@ -29,13 +29,13 @@ public class TransferenciaDaoImpl4 implements TransferenciaDao {
 
 		try (Connection con = ConnectionJDBC.abrir(); PreparedStatement pst = con.prepareStatement(sql)) {
 			pst.setLong(1, transferencia.getIdContaOrigem());
-			System.out.println("PASSEI AQUI '1");		
+			System.out.println("PASSEI AQUI '1" + transferencia.getIdContaOrigem());		
 			pst.setLong(2, transferencia.getIdContaDestino());
-			System.out.println("PASSEI AQUI '2");
+			System.out.println("PASSEI AQUI '2" + transferencia.getIdContaDestino());
 			pst.setBigDecimal(3, transferencia.getValor());
-			System.out.println("PASSEI AQUI '3");
+			System.out.println("PASSEI AQUI '3" + transferencia.getValor());
 			pst.setDate(4, Date.valueOf(transferencia.getData().toLocalDate()));
-			System.out.println("PASSEI AQUI '4");
+			System.out.println("PASSEI AQUI '4" + transferencia.getData());
 			pst.setString(5, transferencia.getTipo());
 			System.out.println("PASSEI AQUI '5");
 			pst.executeUpdate();

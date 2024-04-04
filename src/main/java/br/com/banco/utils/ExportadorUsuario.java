@@ -13,7 +13,7 @@ public class ExportadorUsuario {
 
 	    public void exportarParaTxt(List<Usuario> usuarios) {
 
-		try (BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\Users\\ebabetto\\Documents\\Projetos\\BancoEquipe1\\Usuarios.txt", false))) {
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\Users\\ypiovarczik\\Downloads\\teste\\Banco_Digital_1\\Usuarios.txt", false))) {
 
 			for (Usuario usuario : usuarios) {
 			writer.write(usuario.getIdUsuario() 

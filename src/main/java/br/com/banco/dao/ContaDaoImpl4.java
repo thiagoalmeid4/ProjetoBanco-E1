@@ -82,7 +82,7 @@ public class ContaDaoImpl4 implements ContaDao {
 
 		try (Connection con = ConnectionJDBC.abrir();
 				PreparedStatement desc = con
-						.prepareStatement("UPDATE tb_conta SET nr_saldo=? ,nr_limite_credito=? WHERE id_conta = ?")) {
+						.prepareStatement("UPDATE tb_conta SET nr_saldo=? ,nr_limite_credito=? WHERE pk_id_conta = ?")) {
 			desc.setBigDecimal(1, conta.getSaldo());
 			desc.setBigDecimal(2, conta.getLimiteCredito());
 			desc.setLong(3, conta.getIdConta());
@@ -102,6 +102,7 @@ public class ContaDaoImpl4 implements ContaDao {
 			desc.setLong(2, numero);
 			resultado = desc.executeQuery();
 			resultado.next();
+			conta.setIdConta(resultado.getLong("pk_id_conta"));
 			conta.setIdUsuario(resultado.getLong("fk_id_usuario"));
 			conta.setSaldo(resultado.getBigDecimal("NR_saldo"));
 			conta.setAgencia(resultado.getShort("NR_Agencia"));

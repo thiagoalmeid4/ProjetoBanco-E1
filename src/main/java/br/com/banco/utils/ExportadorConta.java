@@ -11,7 +11,7 @@ import br.com.banco.models.Conta;
 @Component
 public class ExportadorConta {
 	public void exportarParaTxt(List<Conta> contas) {
-	try (BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\Users\\hnantes\\Documents\\BancoDigitalEquipe1\\Contas.txt", false))) {
+	try (BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\Users\\ypiovarczik\\Downloads\\teste\\Banco_Digital_1\\Contas.txt", false))) {
 		for (Conta conta : contas) {
 		
 		String idConta=String.format("%05d", conta.getIdConta());
