@@ -28,18 +28,14 @@ public class TransferenciaDaoImpl4 implements TransferenciaDao {
 		String sql = "INSERT INTO TB_TRANSFERENCIA (FK_ID_CONTA_ORIGEM, FK_ID_CONTA_DESTINO, NR_VALOR, DT_DATA, TIPO) VALUES (?, ?, ?, ?, ?)";;
 
 		try (Connection con = ConnectionJDBC.abrir(); PreparedStatement pst = con.prepareStatement(sql)) {
+
 			pst.setLong(1, transferencia.getIdContaOrigem());
-			System.out.println("PASSEI AQUI '1" + transferencia.getIdContaOrigem());		
 			pst.setLong(2, transferencia.getIdContaDestino());
-			System.out.println("PASSEI AQUI '2" + transferencia.getIdContaDestino());
 			pst.setBigDecimal(3, transferencia.getValor());
-			System.out.println("PASSEI AQUI '3" + transferencia.getValor());
 			pst.setDate(4, Date.valueOf(transferencia.getData().toLocalDate()));
-			System.out.println("PASSEI AQUI '4" + transferencia.getData());
 			pst.setString(5, transferencia.getTipo());
-			System.out.println("PASSEI AQUI '5");
 			pst.executeUpdate();
-			pst.close();
+
 		} catch (SQLException e) {
 			throw new RuntimeException("Erro ao salvar a transferência: " + e.getMessage());
 		}
@@ -98,9 +94,9 @@ public class TransferenciaDaoImpl4 implements TransferenciaDao {
 		Conta conta = new Conta();
 		try (Connection con = ConnectionJDBC.abrir();) {
 
-			BufferedReader buffReader = new BufferedReader(new FileReader("C:\\Users\\vmontezani\\Documents\\Projetos\\ProjetoEquipe1\\TransferenciasGeradas.txt"));
+			BufferedReader buffReader = new BufferedReader(new FileReader("C:\\Users\\gparreiras\\Downloads\\Apagar\\TransferenciasGeradas.txt"));
 			// PreparedStatement pst = connection.prepareStatement(sql);
-
+			int contador = 0;
 			while (buffReader.ready()) {
 				String line = buffReader.readLine();
 
@@ -120,7 +116,9 @@ public class TransferenciaDaoImpl4 implements TransferenciaDao {
 				BigDecimal valor2 = new BigDecimal(valor).divide(BigDecimal.valueOf(100));
 				LocalDateTime date = LocalDateTime.parse(data, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
 
+
 				if(!verificacaoSaldo(agenciaContaOrigem2,numeroContaOrigem2,valor2)) {
+					contador++;
 					continue;
 				}
 				
@@ -128,8 +126,8 @@ public class TransferenciaDaoImpl4 implements TransferenciaDao {
 				
 				String tipo = "TED";
 				String sql = "INSERT INTO TB_TRANSFERENCIA ( NR_VALOR, FK_ID_CONTA_ORIGEM, FK_ID_CONTA_DESTINO, DT_DATA, TIPO ) VALUES ( ?, ?, ?,?,?);"
-						+ "UPDATE TB_CONTA SET NR_SALDO= NR_SALDO - NR_VAOR=? WHERE NR_AGENCIA=?  AND NR_NUMERO_CONTA=?;"
-						+ "UPDATE TB_CONTA SET NR_SALDO= NR_SALDO + NR_VAOR=? WHERE NR_AGENCIA=? AND NR_NUMERO_CONTA=?;";
+						+ "UPDATE TB_CONTA SET NR_SALDO= NR_SALDO - ? WHERE NR_AGENCIA=?  AND NR_NUMERO_CONTA=?;"
+						+ "UPDATE TB_CONTA SET NR_SALDO= NR_SALDO + ? WHERE NR_AGENCIA=? AND NR_NUMERO_CONTA=?;";
 
 				PreparedStatement pst = con.prepareStatement(sql);
 
@@ -152,6 +150,9 @@ public class TransferenciaDaoImpl4 implements TransferenciaDao {
 				pst.executeUpdate();
 
 			}
+			if(contador>0) {
+				throw new RuntimeException("Nao foi concluido " + contador + " transferência(s) pois o saldo é insuficiente");
+			}
 		} catch (SQLException e) {
 			throw new RuntimeException(e.getMessage());
 		} catch (IOException e) {
@@ -164,13 +165,14 @@ public class TransferenciaDaoImpl4 implements TransferenciaDao {
 	public long retornarIdPorAgenciaNumero(int agencia, int numeroConta) {
 
 		try (Connection con = ConnectionJDBC.abrir();) {
-			String sql = "SELECT  PK_ID_CONTA  FROM TB_CONTA WHERE NR_AGENCIA= ? AND NR_NUMERO_CONTA= ?";
+			String sql = "SELECT PK_ID_CONTA  FROM TB_CONTA WHERE NR_AGENCIA= ? AND NR_NUMERO_CONTA= ?";
 			PreparedStatement pst = con.prepareStatement(sql);
-			ResultSet rs=null;
-			if(rs.next()) {
+
 			pst.setInt(1, agencia);
 			pst.setInt(2, numeroConta);
-			rs = pst.executeQuery();
+			ResultSet rs = pst.executeQuery();
+
+			if(rs.next()) {
 			long idConta = rs.getLong("PK_ID_CONTA");
 			return idConta;
 			}

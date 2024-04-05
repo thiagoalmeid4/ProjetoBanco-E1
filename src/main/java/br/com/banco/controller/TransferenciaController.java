@@ -47,8 +47,13 @@ public class TransferenciaController {
 	@PostMapping("/gerar/{i}")
 	public ResponseEntity<String> gerarTransferencia(@PathVariable int i){
 		service.gerarTransferencia(i);
-		service.importTransf();
 		return new ResponseEntity<>("Gerado transferencia",HttpStatus.OK);
 		
+	}
+
+	@PostMapping("/importar")
+	public ResponseEntity<String> importarTransf() {
+		service.importTransf();
+		return new ResponseEntity<>("Importado transferencia",HttpStatus.OK);
 	}
 }
