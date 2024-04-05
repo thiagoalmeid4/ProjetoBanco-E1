@@ -2939,3 +2939,6 @@ UPDATE tb_conta SET nr_saldo=? ,nr_limite_credito=? WHERE id_conta = ? [42122-22
 	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
 	at java.base/java.lang.Thread.run(Thread.java:840)
+2024-04-05 11:33:47.453979-03:00 jdbc[11]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "NM_CPF CHARACTER VARYING(11)": "'875.904.570-19' (14)"; SQL statement:
+INSERT INTO TB_USUARIO (NM_NOME, NM_SENHA, NM_CPF, NM_EMAIL, DT_DATA_NASCIMENTO) VALUES (?,?,?,?,?) [22001-224]
